@@ -9,7 +9,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Open main.html",
-            "file": "/Users/billchen/Desktop/Work/EMC-Remote-Controller/main.html"
+            "file": "${workspaceFolder}/main.html"
         }
     ]
 }
