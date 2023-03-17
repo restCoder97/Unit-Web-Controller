@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>EMC Remote Control</title>
+	<style>
+		/* Styling for title area */
+		.title {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			background-color: #F0F8FF; /* baby blue color */
+			padding: 10px;
+		}
+
+		.title img {
+			height: 70px;
+			width: 189px;
+			margin-right: 10px;
+		}
+
+		.title h1 {
+			margin: 0;
+			color: #000080; /* baby blue color */
+		}
+
+		/* Styling for subtitle area */
+		.subtitle {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: #FFFFFF;
+			padding: 10px;
+            border: 0.5px solid gray;
+		}
+
+		.subtitle button {
+			margin: 0 10px;
+			padding: 5px 10px;
+			border-radius: 5px;
+			border: 1px solid #000080; /* baby blue color */
+			background-color: #F0F8FF; /* baby blue color */
+			color: #000080; /* baby blue color */
+			font-size: 20px;
+			cursor: pointer;
+            flex-grow: 1;
+		}
+
+		.subtitle button:hover {
+			background-color: #000080; /* baby blue color */
+			color: #FFFFFF;
+		}
+
+		/* Styling for main page */
+		.group-area {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: center;
+			padding: 10px;
+		}
+
+		.group {
+			display: flex;
+			flex-direction: column;
+			margin-right: 20px;
+			margin-bottom: 20px;
+			flex-basis: 15%;
+		}
+
+		.group label {
+			margin-bottom: 5px;
+			font-weight: bold;
+			color: #000080;
+			font-size: 20px;
+		}
+
+		.group datalist{
+			font-weight: bold;
+			color: #000000;
+			font-size: 18px;
+		}
+
+		.group input {
+			padding: 5px;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+			font-weight:bold;
+			font-size: 18px;
+			cursor: pointer;
+		}
+
+		.subtitle button.active {
+			background-color: #00BFFF;
+			color: white;
+		}
+		
+		.send-area button{
+			background-color: #F0F8FF; /* baby blue color */
+			color: #000080; /* baby blue color */
+			font-size: 20px;
+			cursor: pointer;
+		}
+
+		.send-area{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+
+        .status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #FFFFFF; /* baby blue color */
+            padding: 10px;
+            border: 0.5px solid #000080; /* baby blue color */
+        }
+
+        .status-text {
+            color: #000000; /* black color */
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .connect-form {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .connect-form label {
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        .connect-form input[type="text"] {
+            margin-right: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #000080; /* baby blue color */
+            font-size: 16px;
+        }
+
+        .connect-form button {
+            padding: 5px 20px;
+            border-radius: 5px;
+            border: 1px solid #000080; /* baby blue color */
+            background-color: #F0F8FF; /* baby blue color */
+            color: #000080; /* baby blue color */
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .connect-form button:hover {
+            background-color: #000080; /* baby blue color */
+            color: #FFFFFF;
+        }
+
+	</style>
+</head>
+<body>
+	<!-- Title area -->
+	<div class="title">
+		<img src="Media/element_logo.png" alt="element logo">
+		<h1>EMC Remote Control</h1>
+	</div>
+
+	<!-- Subtitle area -->
+	<div class="subtitle">
+		<button>WIFI</button>
+		<button>BT</button>
+		<button>LTE</button>
+        <button>FR1</button>
+    </div>
+
+    <!-- Status area -->
+    <div class="status">
+		<script type="text/javascript" src="network.js"></script>
+        <span class="no-connection">No Connection</span>
+        <div class="connect-form">
+            <div>  
+                <label for="ip address">IP Address:</label>
+                <input type="text" id="ip-address" name="ip-address" value="127.0.0.1">
+                <label for="port">Port:</label>
+                <input type="text" id="port" name="port" value="8561">
+            </div>
+            <button id="connect-button">Connect</button>
+      </div>
+    </div>
+
+    
+
+	<!-- Main page -->
+	
+	<div class="main-page" id = "main-page">
+		<script type="text/javascript" src="main.js"></script>
+		<div class="group-area" id="group-area">
+
+		</div>
+
+		<div class="send-area">
+			<button id="send-button">Send</button>
+		</div>
+		
+    </div>
+
+	
