@@ -9,6 +9,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Open main.html",
+            "url": "http://localhost:5555",
             "file": "${workspaceFolder}/main.html"
         }
     ]

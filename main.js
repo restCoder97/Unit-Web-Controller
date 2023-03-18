@@ -1,31 +1,31 @@
 // Get the subtitle buttons and the main page element
+import {choiceToJsonCommand} from "./jsonModify.js";
+import {wifi_par_dict}  from "./jsonModify.js";
+import {bt_par_dict}  from "./jsonModify.js";
+import {adjust_selection}  from "./adjust.js";
 
 var subtitleButtons = document.querySelectorAll('.subtitle button');
 var send_button = document.querySelector('#send-button');
 var mainPage = document.querySelector('#group-area');
+var selected_par_dict = null;
+var selected_test = null;
 var current_test = "";
-console.log(subtitleButtons.length)
+console.log(subtitleButtons.length);
 
-wifi_par_dict = {
-  "Technology":["U-NII","DTS"],
-  "Mode":["11b","11n","11ax(RU)","11ax(SU)","11ac"],
-  "Ant": ["1","2","3"],
-  "Bandwidth":["20 MHz","40 MHz","80 Mhz","160 MHz"],
-  "Channel": "1-165",
-  "Rate": "0-50",
-  "RU Index":"1-13",
-  "RU Length":["RU26","RU52", "RU106","RU242","RU484","RU968","RU61"],
-  "Power (Q)":"1-100"
-}
+
 
 document.addEventListener('DOMContentLoaded', function() {
   mainPage = document.querySelector('#group-area');
   subtitleButtons = document.querySelectorAll('.subtitle button');
+  var status = document.getElementById('status_span');
   send_button = document.querySelector('#send-button');
+  send_button.disabled = true;
   var ip_input = document.getElementById('ip-address');
   var port_input = document.getElementById('port');
   var connect_button = document.querySelector('.connect-form button');
+  var textArea = document.getElementById("dialog");
   var socket = null
+  
 
   //coonecting socket
   
@@ -33,41 +33,69 @@ document.addEventListener('DOMContentLoaded', function() {
     ip_input = document.getElementById('ip-address');
     port_input = document.getElementById('port');
     connect_button = document.querySelector('.connect-form button');
-    console.log('Trying Connect To Test Macbook.');
+    status.innerText = "Connectiong";
     const str_ip = ip_input.value;
     const str_port = port_input.value;
     const socketName = `ws://${str_ip}:${str_port}`;
     console.log(socketName);
     socket = new WebSocket(`ws://${str_ip}:${str_port}`);
+    socket.onopen = function (event) {
+      status.innerText = "Connected";
+      status.style.color = 'green';
+    };
+    socket.onerror=function(event){
+      status.innerText = "Connection Failed";
+      status.style.color = 'red';
+    }
+    socket.addEventListener('open', () => {
+      send_button.disabled = false;
+      status.innerText = "Connected";
+      status.style.color = 'green';
+    });
+    
+    socket.addEventListener('close', () => {
+      send_button.disabled = true;
+      status.innerText = "No Connection";
+      status.style.color = 'red';
+    });
   })
 
 
   //sending socket
   send_button.addEventListener('click',()=>{
-    console.log('Sending Json Command!');
-    socket.send(JSON.stringify({
-      "testType": "BE",
-      "mode": "11ax",
-      "sisoOrMimo": "SISO",
-      "tone": "242T",
-      "bandedgeLowOrHigh": "Low",
-      "frequency": "5180",
-      "power": "1",
-      "antenna": "1",
-      "dataRate": "MCS0",
-      "resourceUnit": "RU61",
-      "band": "5.3",
-      "transmissionDuration": "1",
-      "period": "1",
-      "polarity": "H",
-      "technology": "WLAN U-NII 11ax",
-      "channel": "38",
-      "echoDelay": 0,
-      "mimoScheme": "",
-      "bandwidth": 40,
-      "bandwidthUnits": "MHz",
-      "bandageLowOrHigh": ""
-    }));
+    status.innerText = "Waiting DUT Reply";
+    status.style.color = 'yellow';
+    var dic_choices = {};
+    for(const k in selected_par_dict){
+      console.log(`#input${k}`);
+      const choice = document.querySelector(`#input${k}`).value;
+      dic_choices[k] = choice;
+    }
+    let jsonCommand = choiceToJsonCommand(dic_choices,selected_test);
+    textArea.value+=jsonCommand;
+    textArea.scrollTop = textArea.scrollHeight;
+    socket.send(jsonCommand);
+
+    const timerId = setTimeout(() => {
+      if (socket.readyState === WebSocket.OPEN) {
+        // Connection is still open but no response received
+        alert('No response received within 30 seconds');
+      }
+    }, 30000);
+
+    socket.onmessage = function(event){
+      clearTimeout(timerId);
+      textArea.value+=event.data;
+      textArea.scrollTop = textArea.scrollHeight;
+      let message = event.data.toString();
+      if (message.includes("Success")){
+        status.innerText = "Success"; 
+        status.style.color = 'green';
+      }else{
+        alert("Check the parameters!");
+        status.style.color = 'green'; 
+      }
+    }
   })
 
 
@@ -81,15 +109,17 @@ document.addEventListener('DOMContentLoaded', function() {
       // Determine how many groups to add based on which button was clicked
       let parFileName = "";
       if (button.textContent === 'WIFI') {
-        parDict = wifi_par_dict;
+        var parDict = wifi_par_dict;
+        selected_test = "WIFI";
       } else if (button.textContent === 'FR1') {
         parFileName = "./test_parameters/wifi_par.json";
       } else if (button.textContent === 'LTE') {
         parFileName = "./test_parameters/wifi_par.json";
       }else if (button.textContent === 'BT') {
-        parFileName = "./test_parameters/wifi_par.json";
+        var parDict = bt_par_dict;
+        selected_test = "BT";
       }
-      var selected_par_dict = parDict
+      selected_par_dict = parDict
       // Add the appropriate number of group elements to the main page
       for (const k in parDict) {
         const group = document.createElement('div');
@@ -98,12 +128,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const datalist = document.createElement('datalist')
         const input = document.createElement('input')
         const label = document.createElement('label')
+        input.id = 'input'+k;
+        console.log(input.id);
         label.innerText = k
         datalist.id = k
         group.appendChild(label)
         if (typeof parDict[k] === "string"){//a number range
-          start = +parDict[k].split('-')[0];
-          end = +parDict[k].split('-')[1];
+          var start = +parDict[k].split('-')[0];
+          var end = +parDict[k].split('-')[1];
           for(let i = start; i<=end;i++){
             let option1 = document.createElement("option");
             option1.value = i.toString();
@@ -118,6 +150,9 @@ document.addEventListener('DOMContentLoaded', function() {
           }
           input.setAttribute("list",datalist.id)
         }
+        input.addEventListener('input', function (event){
+          adjust_selection(selected_test,this.id,this.value)
+        });
         group.appendChild(input)
         group.appendChild(datalist)
         mainPage.appendChild(group);
@@ -139,24 +174,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-
-function readJSONFileToDictionary(filePath) {
-  return fetch(filePath)
-    .then(response => response.json())
-    .then(data => {
-      // create an empty dictionary object
-      const dict = {};
-
-      // loop through each key-value pair in the JSON data and add it to the dictionary
-      for (const [key, value] of Object.entries(data)) {
-        dict[key] = value;
-      }
-
-      return dict; // return the resulting dictionary object
-    })
-    .catch(error => {
-      console.log(filePath)
-      console.error(error);
-      return {}; // return an empty dictionary object in case of an error
-    });
-}
