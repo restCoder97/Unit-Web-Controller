@@ -171,6 +171,7 @@
             color: #000080; /* baby blue color */
             font-size: 16px;
             cursor: pointer;
+			margin-top: 10px;
         }
 
         .connect-form button:hover {
@@ -206,6 +207,13 @@
                 <label for="port">Port:</label>
                 <input type="text" id="port" name="port" value="8651">
             </div>
+			<label for="my-dropdown">Chamber:</label>
+			<select id="chamber-dropdown" name="my-dropdown">
+			<option value=""></option>
+			<option value="AM_3m2">AM_3m2</option><option value="AM_3m3">AM_3m3</option><option value="AM_3m4">AM_3m4<option value="AM_3m5">AM_3m5</option>
+			<option value="AM_3m6">AM_3m6</option><option value="AM_3m7">AM_3m7</option><option value="AM_3m8">AM_3m8</option><option value="AM_3m9">AM_3m9</option><option value="AM_3m10">AM_3m10</option>
+			<option value="AM_3m11">AM_3m11</option><option value="AM_3m12">AM_3m12</option><option value="AM_FAC1">AM_FAC1</option><option value="AM_FAC2">AM_FAC2</option>
+			</select>
             <button id="connect-button">Connect</button>
       </div>
     </div>
