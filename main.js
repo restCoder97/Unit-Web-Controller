@@ -1,8 +1,10 @@
+
 // Get the subtitle buttons and the main page element
 import {choiceToJsonCommand} from "./jsonModify.js";
 import {wifi_par_dict}  from "./jsonModify.js";
 import {bt_par_dict}  from "./jsonModify.js";
 import {adjust_selection}  from "./adjust.js";
+
 
 var subtitleButtons = document.querySelectorAll('.subtitle button');
 var send_button = document.querySelector('#send-button');
@@ -32,16 +34,24 @@ document.addEventListener('DOMContentLoaded', function() {
   connect_button.addEventListener('click',()=>{
     ip_input = document.getElementById('ip-address');
     port_input = document.getElementById('port');
+    var chamber_input = document.getElementById('chamber-dropdown');
     connect_button = document.querySelector('.connect-form button');
-    status.innerText = "Connectiong";
+    if(current_test == "" || chamber_input.value == ""){
+      alert("Select a Everything!");
+    }
+    status.innerText = "Connecting";
     const str_ip = ip_input.value;
     const str_port = port_input.value;
-    const socketName = `ws://${str_ip}:${str_port}`;
-    console.log(socketName);
+    const str_chamber = chamber_input.value;
+    
+
     socket = new WebSocket(`ws://${str_ip}:${str_port}`);
+
+
     socket.onopen = function (event) {
       status.innerText = "Connected";
       status.style.color = 'green';
+      socket.send(JSON.stringify({"chamber":str_chamber,"test":current_test}));
     };
     socket.onerror=function(event){
       status.innerText = "Connection Failed";
@@ -58,8 +68,14 @@ document.addEventListener('DOMContentLoaded', function() {
       status.innerText = "No Connection";
       status.style.color = 'red';
     });
+
+
+
+    
   })
 
+
+  
 
   //sending socket
   send_button.addEventListener('click',()=>{
@@ -169,6 +185,8 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   });
 });
+
+
 
 
 
