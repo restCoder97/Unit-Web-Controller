@@ -36,7 +36,7 @@ export async function qurey(chamber,information){
 }
 
 export async function completeEmitting(){
-    await setDoc(doc(db,selected_chamber,"emmitted"),lastCommand);
+    await setDoc(doc(db,selected_chamber,"emitted"),lastCommand);
     await setDoc(doc(db,selected_chamber,"status"),{"status":"Sent:"});
     console.log("Notified Server!");
 }

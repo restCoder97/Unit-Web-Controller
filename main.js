@@ -14,6 +14,13 @@ var selected_par_dict = null;
 var selected_test = null;
 var current_test = "";
 var textArea = null;
+var listen_button = null;
+var timerId = setTimeout(() => {
+  if (socket.readyState === WebSocket.OPEN) {
+    // Connection is still open but no response received
+    alert('No response received within 30 seconds');
+  }
+}, 9999999999999999);;
 console.log(subtitleButtons.length);
 
 
@@ -27,12 +34,17 @@ document.addEventListener('DOMContentLoaded', function() {
   var ip_input = document.getElementById('ip-address');
   var port_input = document.getElementById('port');
   var connect_button = document.querySelector('.connect-form button');
+  listen_button = document.querySelector('#listen-button');
+  listen_button.disabled = true
   textArea = document.getElementById("dialog");
   var socket = null
   
 
   //coonecting socket
-  
+  listen_button.addEventListener('click',()=>{
+    connect(document.getElementById('chamber-dropdown').value);
+  })
+
   connect_button.addEventListener('click',()=>{
     ip_input = document.getElementById('ip-address');
     port_input = document.getElementById('port');
@@ -46,14 +58,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const str_ip = ip_input.value;
     const str_port = port_input.value;
     const str_chamber = chamber_input.value;
-    connect(str_chamber);
-    
-
     socket = new WebSocket(`ws://${str_ip}:${str_port}`);
-
-
     socket.onopen = function (event) {
-      status.innerText = "Connected";
+      status.innerText = "Connected, Setting dut......";
       status.style.color = 'green';
       socket.send(JSON.stringify({"chamber":str_chamber,"test":current_test}));
     };
@@ -62,11 +69,31 @@ document.addEventListener('DOMContentLoaded', function() {
       status.style.color = 'red';
     }
     socket.addEventListener('open', () => {
-      send_button.disabled = false;
-      status.innerText = "Connected";
+      status.innerText = "Connected, Setting dut......";
       status.style.color = 'green';
     });
     
+    socket.onmessage = function(event){
+      clearTimeout(timerId);
+      textArea.value+=event.data;
+      textArea.scrollTop = textArea.scrollHeight;
+      let message = event.data.toString();
+      if (message.includes("Success")){
+        status.innerText = "Success"; 
+        status.style.color = 'green';
+        completeEmitting();
+      }else if (message.includes("Ready!")){
+        send_button.disabled = false;
+        listen_button.disabled = false;
+        status.innerText = "Connected, DUT Ready!";
+        status.style.color = 'green';
+      }
+      else{
+        alert("Check the parameters!");
+        status.style.color = 'Red'; 
+      }
+    }
+
     socket.addEventListener('close', () => {
       send_button.disabled = true;
       status.innerText = "No Connection";
@@ -92,27 +119,14 @@ document.addEventListener('DOMContentLoaded', function() {
     textArea.scrollTop = textArea.scrollHeight;
     socket.send(jsonCommand);
 
-    const timerId = setTimeout(() => {
+    timerId = setTimeout(() => {
       if (socket.readyState === WebSocket.OPEN) {
         // Connection is still open but no response received
         alert('No response received within 30 seconds');
       }
-    }, 30000);
+    }, 90000);
 
-    socket.onmessage = function(event){
-      clearTimeout(timerId);
-      textArea.value+=event.data;
-      textArea.scrollTop = textArea.scrollHeight;
-      let message = event.data.toString();
-      if (message.includes("Success")){
-        status.innerText = "Success"; 
-        status.style.color = 'green';
-        completeEmitting();
-      }else{
-        alert("Check the parameters!");
-        status.style.color = 'green'; 
-      }
-    }
+    
   })
   // Listen for click events on the subtitle buttons
   subtitleButtons.forEach(button => {
