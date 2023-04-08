@@ -1,9 +1,10 @@
 
 // Get the subtitle buttons and the main page element
-import {choiceToJsonCommand} from "./jsonModify.js";
+import {choiceToJsonCommand,commandToChoice} from "./jsonModify.js";
 import {wifi_par_dict}  from "./jsonModify.js";
 import {bt_par_dict}  from "./jsonModify.js";
 import {adjust_selection}  from "./adjust.js";
+import { qurey,connect,completeEmitting} from "./network.js";
 
 
 var subtitleButtons = document.querySelectorAll('.subtitle button');
@@ -12,6 +13,7 @@ var mainPage = document.querySelector('#group-area');
 var selected_par_dict = null;
 var selected_test = null;
 var current_test = "";
+var textArea = null;
 console.log(subtitleButtons.length);
 
 
@@ -25,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var ip_input = document.getElementById('ip-address');
   var port_input = document.getElementById('port');
   var connect_button = document.querySelector('.connect-form button');
-  var textArea = document.getElementById("dialog");
+  textArea = document.getElementById("dialog");
   var socket = null
   
 
@@ -38,11 +40,13 @@ document.addEventListener('DOMContentLoaded', function() {
     connect_button = document.querySelector('.connect-form button');
     if(current_test == "" || chamber_input.value == ""){
       alert("Select a Everything!");
+      return
     }
     status.innerText = "Connecting";
     const str_ip = ip_input.value;
     const str_port = port_input.value;
     const str_chamber = chamber_input.value;
+    connect(str_chamber);
     
 
     socket = new WebSocket(`ws://${str_ip}:${str_port}`);
@@ -67,11 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
       send_button.disabled = true;
       status.innerText = "No Connection";
       status.style.color = 'red';
-    });
-
-
-
-    
+    });  
   })
 
 
@@ -107,15 +107,13 @@ document.addEventListener('DOMContentLoaded', function() {
       if (message.includes("Success")){
         status.innerText = "Success"; 
         status.style.color = 'green';
+        completeEmitting();
       }else{
         alert("Check the parameters!");
         status.style.color = 'green'; 
       }
     }
   })
-
-
-
   // Listen for click events on the subtitle buttons
   subtitleButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -144,6 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const datalist = document.createElement('datalist')
         const input = document.createElement('input')
         const label = document.createElement('label')
+        label.id = 'label'+k;
         input.id = 'input'+k;
         console.log(input.id);
         label.innerText = k
@@ -187,6 +186,25 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+export function databaseSelection(data){
+  const chocies = commandToChoice(data);
+  textArea.value+= "New Command Found From Databse!\n";
+  textArea.value+=JSON.stringify(data);
+  textArea.scrollTop = textArea.scrollHeight;
+  for(const k in chocies){
+    if (document.querySelector(`#input${k}`).value != chocies[k]){
+      document.querySelector(`#input${k}`).value = chocies[k];
+      setTimeout(function() {
+        var label = document.querySelector(`#label${k}`);
+        label.style.color = 'yellow';
+        setTimeout(function() {
+          label.style.color = "#000080";
+        }, 1000);
+      }, 0);
+    }
+  }
+  send_button.click();
+}
 
 
 

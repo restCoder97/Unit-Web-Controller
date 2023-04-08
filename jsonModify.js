@@ -21,6 +21,8 @@ export const wifi_json_template = {
     "bandwidthUnits": "MHz",
     "bandageLowOrHigh": ""
   }
+
+
 export var wifi_par_dict = {
     "Technology":["U-NII","DTS"],
     "Mode":["11b","11n","11ax-(RU)","11ax-(SU)","11ac"],
@@ -31,6 +33,57 @@ export var wifi_par_dict = {
     "RU-Length":["RU26","RU52", "RU106","RU242","RU484","RU968","RU61"],
     "Power-in-Q":"1-100"
 }
+
+
+export function commandToChoice(command){
+  var choiceDict = {};
+  if ("Mode" in command && ((command["Mode"].includes("DTS")) || (command["Mode"].includes("UNII")))){// is wifi
+    let mode = command["Mode"];
+    choiceDict["Ant"] = command["Core"].toString();
+    choiceDict["Bandwidth"] = command["Bandwidth"].toString() + " MHz";
+    choiceDict["Channel"] = command["Channel"].toString();
+    choiceDict["Rate"] = command["Rate"].toString();
+    choiceDict["Power-in-Q"] = command["Power"].toString();
+    switch(command["Length"]) {
+      case "375":
+        choiceDict["RU-Length"] = wifi_par_dict["RU-Length"][0];
+        break;
+      case "750":
+        choiceDict["RU-Length"] = wifi_par_dict["RU-Length"][1];
+        break;
+      case "1500":
+        choiceDict["RU-Length"] = wifi_par_dict["RU-Length"][2];
+        break;
+      case "3000":
+        choiceDict["RU-Length"] = wifi_par_dict["RU-Length"][3];
+        break;
+      case "8000":
+        choiceDict["RU-Length"] = wifi_par_dict["RU-Length"][4];
+        break;
+      default:
+        choiceDict["RU-Length"] = "RU61";
+    }
+    if (command["Mode"].includes("UNII")){
+      choiceDict["Technology"] = "U-NII";
+    }else{
+      choiceDict["Technology"] = "DTS";
+    }
+    if(mode.includes("SU")){
+      choiceDict["Mode"] = "11ax-(SU)";
+    }else if(mode.includes("RU")){
+      choiceDict["Mode"] = "11ax-(RU)";
+    }else if(mode.includes("11ac")){
+      choiceDict["Mode"] = "11ac";
+    }else if(mode.includes("11b")){
+      choiceDict["Mode"] = "11b";
+    }else{
+      choiceDict["Mode"] = "11n";
+    }
+    
+  } 
+  return choiceDict
+}
+
 
 export const bt_json_template = {
   "testType": "HARM",
@@ -108,6 +161,7 @@ export function choiceToJsonCommand(dict,testType) {
   }
 
   
+
 
   
   
