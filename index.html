@@ -153,7 +153,8 @@
         }
 
         .connect-form label {
-            margin-right: 5px;
+            
+			margin-left: 10px;
             margin-bottom: 5px;
         }
 
@@ -161,6 +162,15 @@
             margin-right: 10px;
             margin-bottom: 10px;
             border-radius: 5px;
+			width: 200px;
+            border: 1px solid #000080; /* baby blue color */
+            font-size: 16px;
+        }
+		.connect-form select[type="text"] {
+            margin-right: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+			width: 150px;
             border: 1px solid #000080; /* baby blue color */
             font-size: 16px;
         }
@@ -209,13 +219,17 @@
                 <label for="port">Port:</label>
                 <input type="text" id="port" name="port" value="8651">
             </div>
-			<label for="my-dropdown">Chamber:</label>
-			<select id="chamber-dropdown" name="my-dropdown">
-			<option value=""></option>
-			<option value="AM_3m2">AM_3m2</option><option value="AM_3m3">AM_3m3</option><option value="AM_3m4">AM_3m4<option value="AM_3m5">AM_3m5</option>
-			<option value="AM_3m6">AM_3m6</option><option value="AM_3m7">AM_3m7</option><option value="AM_3m8">AM_3m8</option><option value="AM_3m9">AM_3m9</option><option value="AM_3m10">AM_3m10</option>
-			<option value="AM_3m11">AM_3m11</option><option value="AM_3m12">AM_3m12</option><option value="AM_FAC1">AM_FAC1</option><option value="AM_FAC2">AM_FAC2</option>
-			</select>
+			<div>
+				<label for="my-dropdown">Chamber:</label>
+				<select id="chamber-dropdown" name="my-dropdown">
+				<option value=""></option>
+				<option value="AM_3m2">AM_3m2</option><option value="AM_3m3">AM_3m3</option><option value="AM_3m4">AM_3m4<option value="AM_3m5">AM_3m5</option>
+				<option value="AM_3m6">AM_3m6</option><option value="AM_3m7">AM_3m7</option><option value="AM_3m8">AM_3m8</option><option value="AM_3m9">AM_3m9</option><option value="AM_3m10">AM_3m10</option>
+				<option value="AM_3m11">AM_3m11</option><option value="AM_3m12">AM_3m12</option><option value="AM_FAC1">AM_FAC1</option><option value="AM_FAC2">AM_FAC2</option>
+				</select>
+				<label for="comport number">Comport:</label>
+				<input type="text" id="comport" name="comport" value="/dev/cu.usbmodem1302">
+			</div>
             <button id="connect-button">Connect</button>
       </div>
     </div>
@@ -230,8 +244,12 @@
 		</div>
 
 		<div class="send-area">
-			<button id="send-button">Send</button>
-			<button id="listen-button">Listen</button>
+			<div>
+				<button id="send-button">Send</button>
+				<button id="listen-button">Listen</button>
+			</div>
+			<button id="remote-button">Remote Control</button>
+			
 		</div>
 		<div class="dialog-area">
 			<textarea id="dialog"  rows="20" cols="70">

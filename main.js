@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var connect_button = document.querySelector('.connect-form button');
   listen_button = document.querySelector('#listen-button');
   listen_button.disabled = true
+  var comport_input = null;
   textArea = document.getElementById("dialog");
   var socket = null
   
@@ -50,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
     port_input = document.getElementById('port');
     var chamber_input = document.getElementById('chamber-dropdown');
     connect_button = document.querySelector('.connect-form button');
+    comport_input = document.getElementById('comport');
     if(current_test == "" || chamber_input.value == ""){
       alert("Select a Everything!");
       return
@@ -58,11 +60,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const str_ip = ip_input.value;
     const str_port = port_input.value;
     const str_chamber = chamber_input.value;
+    const str_comport = comport_input.value;
     socket = new WebSocket(`ws://${str_ip}:${str_port}`);
     socket.onopen = function (event) {
       status.innerText = "Connected, Setting dut......";
       status.style.color = 'green';
-      socket.send(JSON.stringify({"chamber":str_chamber,"test":current_test}));
+      socket.send(JSON.stringify({"chamber":str_chamber,"test":current_test,"comport":str_comport}));
     };
     socket.onerror=function(event){
       status.innerText = "Connection Failed";
