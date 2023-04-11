@@ -41,15 +41,15 @@ export async function completeEmitting(){
     console.log("Notified Server!");
 }
 
-export async function connect(chamber){
+export async function connect(chamber,remoteMode = false){
     selected_chamber = chamber;
     await setDoc(doc(db,selected_chamber,"emitted"),{"Connected":"Success"});
     await setDoc(doc(db,selected_chamber,"status"),{"status":"Sent:"});
     const unsub = onSnapshot(
-        doc(db, chamber, "command"), 
-        { includeMetadataChanges: true }, 
-        (doc) => {
-            lastCommand = doc.data();
-            databaseSelection(doc.data());
+      doc(db, chamber, "command"), 
+      { includeMetadataChanges: true }, 
+      (doc) => {
+          lastCommand = doc.data();
+          databaseSelection(doc.data());
     });
 }

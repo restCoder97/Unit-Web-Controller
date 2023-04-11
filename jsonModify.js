@@ -125,7 +125,7 @@ export var lte_par_dict = {
   "Frequency": ["1850.7"],
   "Ant": ["1","2","3"],
   "Channel": ["19957"],
-  "Power-in-Q": "1-100",
+  "Power": "1-100",
 }
   
 export var lte_json_template = {
@@ -192,7 +192,7 @@ export function choiceToJsonCommand(dict,testType) {
       dict_command['band'] = dict['Band'];
       dict_command['bandwidth'] = dict['Bandwidth'];
       dict_command['resourceBlock'] =  dict['RB-Offset'];
-      dict_command['power'] = "" + (parseInt(dict['Power-in-Q'])/4);
+      dict_command['power'] = dict['Power'];
       dict_command['antenna'] = dict['Ant'];
       dict_command['modulation'] = dict['Modulation'];
       dict_command['frequency'] = dict["Frequency"]

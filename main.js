@@ -5,9 +5,20 @@ import {wifi_par_dict,bt_par_dict,lte_par_dict}  from "./jsonModify.js";
 import {adjust_selection}  from "./adjust.js";
 import { qurey,connect,completeEmitting} from "./network.js";
 
-
+Element.prototype.remove = function() {
+  this.parentElement.removeChild(this);
+}
+NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
+  for(var i = this.length - 1; i >= 0; i--) {
+      if(this[i] && this[i].parentElement) {
+          this[i].parentElement.removeChild(this[i]);
+      }
+  }
+}
 var subtitleButtons = document.querySelectorAll('.subtitle button');
 var send_button = document.querySelector('#send-button');
+
+var remoteControl = false;
 var mainPage = document.querySelector('#group-area');
 var selected_par_dict = null;
 var selected_test = null;
@@ -22,14 +33,13 @@ var timerId = setTimeout(() => {
 }, 9999999999999999);;
 console.log(subtitleButtons.length);
 
-
-
 document.addEventListener('DOMContentLoaded', function() {
   mainPage = document.querySelector('#group-area');
   subtitleButtons = document.querySelectorAll('.subtitle button');
   var status = document.getElementById('status_span');
   send_button = document.querySelector('#send-button');
   send_button.disabled = true;
+  var remote_button = document.querySelector('#remote-button');
   var ip_input = document.getElementById('ip-address');
   var port_input = document.getElementById('port');
   var connect_button = document.querySelector('.connect-form button');
@@ -39,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
   textArea = document.getElementById("dialog");
   var socket = null
   
-
   //coonecting socket
   listen_button.addEventListener('click',()=>{
     connect(document.getElementById('chamber-dropdown').value);
@@ -105,7 +114,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });  
   })
 
-
+  remote_button.addEventListener('click',()=>{
+    document.getElementById("send-button").remove();
+    document.getElementById("listen-button").remove();
+    remoteControl = true;
+  })
   
 
   //sending socket
@@ -206,6 +219,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 export function databaseSelection(data){
+  if(remoteControl){
+    return
+  }
   const chocies = commandToChoice(data);
   textArea.value+= "New Command Found From Databse!\n";
   textArea.value+=JSON.stringify(data);
