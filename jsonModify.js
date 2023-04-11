@@ -115,7 +115,36 @@ export var bt_par_dict = {
     "Data-Rate":["1Mbps","2Mbps"],
     "Power-in-Q":"1-100"
 }
+
+export var lte_par_dict = {
+  "Technology": ["LTE","GSM","W-CDMA"],
+  "Band": ["B2","B4","B5","B7","B12","B13","B14","B17","B25","B26","B30","B38","B41","B48","B53","B66","B71","GSM850","GSM900","GSM1800","GSM1900"],
+  "Bandwidth": ["1.4","3.0","5.0","10.0","15.0","20.0"],
+  "RB-Offset": ["1-0"],
+  "Modulation": ["QPSK","16QAM","64QAM","256QAM","GPRS","EGRPS","Rel99","HSDPA","HSUPA","DHSDPA"],
+  "Frequency": ["1850.7"],
+  "Ant": ["1","2","3"],
+  "Channel": ["19957"],
+  "Power-in-Q": "1-100",
+}
   
+export var lte_json_template = {
+  "band": "B4",
+  "bandwidth": "1.4",
+  "testType": "HARM",
+  "resourceBlock": "1-0",
+  "power": "1",
+  "antenna": "1",
+  "modulation": "QPSK",
+  "frequency": "1710.7",
+  "technology": "LTE",
+  "channel": "19957",
+  "echoDelay": 0,
+  "command": "Toggle"
+}
+
+
+
 
 export function choiceToJsonCommand(dict,testType) {
     if(testType === "WIFI"){
@@ -156,6 +185,21 @@ export function choiceToJsonCommand(dict,testType) {
       dict_command['channel'] = dict["Channel"];
       return JSON.stringify(dict_command);
     }
+
+    else if(testType === "LTE"){
+      var dict_command = lte_json_template;
+      dict_command["technology"] = dict["Technology"];
+      dict_command['band'] = dict['Band'];
+      dict_command['bandwidth'] = dict['Bandwidth'];
+      dict_command['resourceBlock'] =  dict['RB-Offset'];
+      dict_command['power'] = "" + (parseInt(dict['Power-in-Q'])/4);
+      dict_command['antenna'] = dict['Ant'];
+      dict_command['modulation'] = dict['Modulation'];
+      dict_command['frequency'] = dict["Frequency"]
+      dict_command['channel'] = dict["Channel"];
+      return JSON.stringify(dict_command);
+    }
+
     return null;
     
   }

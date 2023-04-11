@@ -1,8 +1,7 @@
 
 // Get the subtitle buttons and the main page element
 import {choiceToJsonCommand,commandToChoice} from "./jsonModify.js";
-import {wifi_par_dict}  from "./jsonModify.js";
-import {bt_par_dict}  from "./jsonModify.js";
+import {wifi_par_dict,bt_par_dict,lte_par_dict}  from "./jsonModify.js";
 import {adjust_selection}  from "./adjust.js";
 import { qurey,connect,completeEmitting} from "./network.js";
 
@@ -52,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var chamber_input = document.getElementById('chamber-dropdown');
     connect_button = document.querySelector('.connect-form button');
     comport_input = document.getElementById('comport');
+
     if(current_test == "" || chamber_input.value == ""){
       alert("Select a Everything!");
       return
@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const str_port = port_input.value;
     const str_chamber = chamber_input.value;
     const str_comport = comport_input.value;
+
     socket = new WebSocket(`ws://${str_ip}:${str_port}`);
     socket.onopen = function (event) {
       status.innerText = "Connected, Setting dut......";
@@ -145,7 +146,8 @@ document.addEventListener('DOMContentLoaded', function() {
       } else if (button.textContent === 'FR1') {
         parFileName = "./test_parameters/wifi_par.json";
       } else if (button.textContent === 'LTE') {
-        parFileName = "./test_parameters/wifi_par.json";
+        var parDict = lte_par_dict;
+        selected_test = "LTE";
       }else if (button.textContent === 'BT') {
         var parDict = bt_par_dict;
         selected_test = "BT";
