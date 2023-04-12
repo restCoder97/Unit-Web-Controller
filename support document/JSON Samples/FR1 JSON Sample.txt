@@ -1,0 +1,19 @@
+{
+  "band": "n5",
+  "bandwidth": "10.0",
+  "testType": "HARM",
+  "resourceBlock": "1-0",
+  "subCarrierSpacing": "30000",
+  "powerClass": "2",
+  "power": "1",
+  "antenna": "1",
+  "modulation": "QPSK",
+  "frequency": "829",
+  "technology": "FR1",
+  "uplinkChannel": "165800",
+  "downlinkChannel": "174800",
+  "echoDelay": 0,
+  "bandwidthUnits": "MHz"
+}
+
+

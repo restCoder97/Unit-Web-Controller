@@ -1,0 +1,13 @@
+{
+  "band": "GSM850",
+  "numberOfSlots": "1",
+  "frequency": "824.2",
+  "testType": "HARM",
+  "power": "1",
+  "antenna": "1",
+  "modulation": "GPRS",
+  "technology": "GSM",
+  "channel": "128",
+  "echoDelay": 0,
+  "command": "device prepare"
+}

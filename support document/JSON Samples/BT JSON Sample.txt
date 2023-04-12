@@ -1,0 +1,61 @@
+BLE
+{
+  "testType": "HARM",
+  "sisoOrMimo": "SISO",
+  "power": "1",
+  "polarity": "H",
+  "frequency": "2402",
+  "mode": "BDR",
+  "modulation": "GFSK",
+  "antenna": "1",
+  "transmissionDuration": "1",
+  "powerMode": "EPA",
+  "period": "1",
+  "technology": "BT",
+  "channel": "0",
+  "echoDelay": 0,
+  "mimoScheme": "",
+  "dataRate": "",
+  "bandageLowOrHigh": ""
+}
+
+//HDR
+{
+  "testType": "BE",
+  "sisoOrMimo": "SISO",
+  "power": "1",
+  "polarity": "H",
+  "frequency": "2402",
+  "mode": "HDR4",
+  "modulation": "GFSK",
+  "antenna": "1",
+  "transmissionDuration": "1",
+  "powerMode": "EPA",
+  "period": "1",
+  "technology": "HDR",
+  "channel": "1",
+  "echoDelay": 0,
+  "mimoScheme": "TxBF",
+  "dataRate": "",
+  "bandageLowOrHigh": ""
+}
+//BLE
+{
+  "testType": "BE",
+  "sisoOrMimo": "SISO",
+  "power": "1",
+  "polarity": "H",
+  "frequency": "2402",
+  "mode": "HDR4",
+  "modulation": "GFSK",
+  "antenna": "1",
+  "transmissionDuration": "1",
+  "powerMode": "EPA",
+  "period": "1",
+  "technology": "BLE",
+  "channel": "1",
+  "echoDelay": 0,
+  "mimoScheme": "TxBF",
+  "dataRate": "1Mbps",
+  "bandageLowOrHigh": ""
+}

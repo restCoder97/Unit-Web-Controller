@@ -1,0 +1,23 @@
+{
+  "testType": "BE",
+  "mode": "11n",
+  "sisoOrMimo": "SISO",
+  "tone": "242T",
+  "bandedgeLowOrHigh": "Low",
+  "frequency": "5180",
+  "power": "1",
+  "antenna": "1",
+  "dataRate": "MCS0",
+  "resourceUnit": "RU61",
+  "band": "5.3",
+  "transmissionDuration": "1",
+  "period": "1",
+  "polarity": "H",
+  "technology": "WLAN U-NII 11n",
+  "channel": "38",
+  "echoDelay": 0,
+  "mimoScheme": "",
+  "bandwidth": 40,
+  "bandwidthUnits": "MHz",
+  "bandageLowOrHigh": ""
+}

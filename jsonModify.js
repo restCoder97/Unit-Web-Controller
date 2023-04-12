@@ -143,6 +143,40 @@ export var lte_json_template = {
   "command": "Toggle"
 }
 
+export var fr1_json_template = {
+  "band": "n5",
+  "bandwidth": "10.0",
+  "testType": "HARM",
+  "resourceBlock": "1-0",
+  "subCarrierSpacing": "30000",
+  "powerClass": "2",
+  "power": "1",
+  "antenna": "1",
+  "modulation": "QPSK",
+  "frequency": "829",
+  "technology": "FR1",
+  "uplinkChannel": "165800",
+  "downlinkChannel": "174800",
+  "echoDelay": 0,
+  "bandwidthUnits": "MHz"
+}
+const bandstring = "N1,N2,N3,N5,N7,N8,N12,N20,N25,N28,N30,N38,N40,N41,N48,N66,N71,N77,N78,N79,N77,N78,N79,N77,N78,N79,N77,N78,N79";
+export var fr1_par_dict = {
+  "Technology": ["FR1"],
+  "Band": bandstring.split(','),
+  "Bandwidth": ["5","10","15","20","30","40","50","60","70","80","90","100"],
+  "RB-Offset": ["1-0"],
+  "Modulation": ["QPSK","16QAM","64QAM","256QAM","BPSK"],
+  "Frequency": ["1850.7"],
+  "Ant": ["1","2","3"],
+  "Uplink": ["19957"],
+  "Downlink": ["19957"],
+  "Sub-Carrier-Spacing":["1500","3000"],
+  "Power-Class":["1","2","3"],
+  "Power": "1-100",
+}
+
+
 
 
 
@@ -199,6 +233,26 @@ export function choiceToJsonCommand(dict,testType) {
       dict_command['channel'] = dict["Channel"];
       return JSON.stringify(dict_command);
     }
+
+    else if(testType == "FR1"){
+      var dict_command = lte_json_template;
+      dict_command["technology"] = dict["Technology"];
+      dict_command['band'] = dict['Band'];
+      dict_command['bandwidth'] = dict['Bandwidth'];
+      dict_command['resourceBlock'] =  dict['RB-Offset'];
+      dict_command['power'] = dict['Power'];
+      dict_command["powerclass"] = dict['Power-Class'];
+      dict_command['antenna'] = dict['Ant'];
+      dict_command['modulation'] = dict['Modulation'];
+      dict_command['frequency'] = dict["Frequency"]
+      dict_command['channel'] = dict["Channel"];
+      dict_command['subCarrierSpacing'] = dict["Sub-Carrier-Spacing"] ;
+      dict_command["uplinkChannel"] = dict["UPlink"];
+      dict_command["downlinkChannel"] = dict["Downlink"];
+
+      return JSON.stringify(dict_command);
+    }
+
 
     return null;
     

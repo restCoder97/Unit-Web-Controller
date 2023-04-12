@@ -1,7 +1,7 @@
 
 // Get the subtitle buttons and the main page element
 import {choiceToJsonCommand,commandToChoice} from "./jsonModify.js";
-import {wifi_par_dict,bt_par_dict,lte_par_dict}  from "./jsonModify.js";
+import {wifi_par_dict,bt_par_dict,lte_par_dict,fr1_par_dict}  from "./jsonModify.js";
 import {adjust_selection}  from "./adjust.js";
 import { qurey,connect,completeEmitting} from "./network.js";
 
@@ -157,7 +157,8 @@ document.addEventListener('DOMContentLoaded', function() {
         var parDict = wifi_par_dict;
         selected_test = "WIFI";
       } else if (button.textContent === 'FR1') {
-        parFileName = "./test_parameters/wifi_par.json";
+        var parDict = fr1_par_dict;
+        selected_test = "FR1";
       } else if (button.textContent === 'LTE') {
         var parDict = lte_par_dict;
         selected_test = "LTE";

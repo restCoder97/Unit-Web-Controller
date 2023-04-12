@@ -1,0 +1,28 @@
+{
+  "band": "B4",
+  "bandwidth": "1.4",
+  "testType": "HARM",
+  "resourceBlock": "1-0",
+  "power": "1",
+  "antenna": "1",
+  "modulation": "QPSK",
+  "frequency": "1710.7",
+  "technology": "LTE",
+  "channel": "19957",
+  "echoDelay": 0,
+  "command": "Toggle"
+}
+
+
+
+xport var lte_par_dict = {
+  "Technology": ["LTE"],
+  "Band": ["B2","B4","B5","B7","B12","B13","B14","B17","B25","B26","B30","B38","B41","B48","B53","B66","B71"],
+  "Bandwidth": ["1.4","3.0","5.0","10.0","15.0","20.0"],
+  "RB-Offset": ["1-0"],
+  "Modulation": ["QPSK","16QAM","64QAM","256QAM"],
+  "Frequency": ["1850.7"],
+  "Ant": ["1","2","3"],
+  "Channel": ["19957"],
+  "Power-in-Q": "1-100",
+}
