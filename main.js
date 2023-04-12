@@ -4,7 +4,7 @@ import {choiceToJsonCommand,commandToChoice} from "./jsonModify.js";
 import {wifi_par_dict,bt_par_dict,lte_par_dict,fr1_par_dict}  from "./jsonModify.js";
 import {adjust_selection}  from "./adjust.js";
 import { qurey,connect,completeEmitting} from "./network.js";
-
+import {readFR1Channels} from "./adjust.js"
 Element.prototype.remove = function() {
   this.parentElement.removeChild(this);
 }
@@ -15,9 +15,9 @@ NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
       }
   }
 }
+
 var subtitleButtons = document.querySelectorAll('.subtitle button');
 var send_button = document.querySelector('#send-button');
-
 var remoteControl = false;
 var mainPage = document.querySelector('#group-area');
 var selected_par_dict = null;
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     socket.addEventListener('close', () => {
-      send_button.disabled = true;
+      //send_button.disabled = true;
       status.innerText = "No Connection";
       status.style.color = 'red';
     });  
@@ -157,6 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var parDict = wifi_par_dict;
         selected_test = "WIFI";
       } else if (button.textContent === 'FR1') {
+        readFR1Channels();
         var parDict = fr1_par_dict;
         selected_test = "FR1";
       } else if (button.textContent === 'LTE') {
@@ -199,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function() {
           input.setAttribute("list",datalist.id)
         }
         input.addEventListener('input', function (event){
-          adjust_selection(selected_test,this.id,this.value)
+          adjust_selection(selected_test,k,this.value);
         });
         group.appendChild(input)
         group.appendChild(datalist)

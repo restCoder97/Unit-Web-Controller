@@ -235,7 +235,7 @@ export function choiceToJsonCommand(dict,testType) {
     }
 
     else if(testType == "FR1"){
-      var dict_command = lte_json_template;
+      var dict_command = fr1_json_template;
       dict_command["technology"] = dict["Technology"];
       dict_command['band'] = dict['Band'];
       dict_command['bandwidth'] = dict['Bandwidth'];
