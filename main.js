@@ -94,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (message.includes("Success")){
         status.innerText = "Success"; 
         status.style.color = 'green';
+        clearTimeout(timerId)
         completeEmitting();
       }else if (message.includes("Ready!")){
         send_button.disabled = false;
@@ -202,8 +203,8 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('input', function (event){
           adjust_selection(selected_test,k,this.value);
         });
-        group.appendChild(input)
-        group.appendChild(datalist)
+        group.appendChild(input);
+        group.appendChild(datalist);
         mainPage.appendChild(group);
     }
 
