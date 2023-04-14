@@ -25,6 +25,9 @@ var selected_test = null;
 var current_test = "";
 var textArea = null;
 var listen_button = null;
+var lastCommand = null;
+
+
 var timerId = setTimeout(() => {
   if (socket.readyState === WebSocket.OPEN) {
     // Connection is still open but no response received
@@ -94,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (message.includes("Success")){
         status.innerText = "Success"; 
         status.style.color = 'green';
-        clearTimeout(timerId)
+        clearTimeout(timerId);
         completeEmitting();
       }else if (message.includes("Ready!")){
         send_button.disabled = false;
@@ -102,10 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
         status.innerText = "Connected, DUT Ready!";
         status.style.color = 'green';
       }
-      else{
-        alert("Check the parameters!");
-        status.style.color = 'Red'; 
-      }
+      
     }
 
     socket.addEventListener('close', () => {
@@ -121,6 +121,21 @@ document.addEventListener('DOMContentLoaded', function() {
     remoteControl = true;
   })
   
+  function isWifiPowerChange(newCommand){
+    try{
+      delete newCommand.power;
+      for(const k in newCommand){
+        if(!(k in JSON.parse(lastCommand))){return false;}
+        if(newCommand[k] != JSON.parse(lastCommand)[k]){
+          return false;
+        }
+      }
+      return true;
+    }catch(err){
+      return false;
+    }
+    
+  }
 
   //sending socket
   send_button.addEventListener('click',()=>{
@@ -132,11 +147,16 @@ document.addEventListener('DOMContentLoaded', function() {
       const choice = document.querySelector(`#input${k}`).value;
       dic_choices[k] = choice;
     }
-    let jsonCommand = choiceToJsonCommand(dic_choices,selected_test);
-    textArea.value+=jsonCommand;
-    textArea.scrollTop = textArea.scrollHeight;
-    socket.send(jsonCommand);
-
+    var jsonCommand = choiceToJsonCommand(dic_choices,selected_test);
+    lastCommand = jsonCommand
+    if (isWifiPowerChange(JSON.parse(jsonCommand))){//check if only power changed
+      var tmp = JSON.parse(jsonCommand);
+      tmp['State'] = 'TxPowerChange';//state pnly change power
+      jsonCommand  = JSON.stringify(tmp);
+      socket.send(jsonCommand);
+    }else{
+      socket.send(jsonCommand);
+    }
     timerId = setTimeout(() => {
       if (socket.readyState === WebSocket.OPEN) {
         // Connection is still open but no response received
@@ -227,7 +247,6 @@ export function databaseSelection(data){
   }
   const chocies = commandToChoice(data);
   textArea.value+= "New Command Found From Databse!\n";
-  textArea.value+=JSON.stringify(data);
   textArea.scrollTop = textArea.scrollHeight;
   for(const k in chocies){
     if (document.querySelector(`#input${k}`).value != chocies[k]){
