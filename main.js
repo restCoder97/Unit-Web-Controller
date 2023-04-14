@@ -148,13 +148,13 @@ document.addEventListener('DOMContentLoaded', function() {
       dic_choices[k] = choice;
     }
     var jsonCommand = choiceToJsonCommand(dic_choices,selected_test);
-    lastCommand = jsonCommand
     if (isWifiPowerChange(JSON.parse(jsonCommand))){//check if only power changed
       var tmp = JSON.parse(jsonCommand);
       tmp['State'] = 'TxPowerChange';//state pnly change power
       jsonCommand  = JSON.stringify(tmp);
       socket.send(jsonCommand);
     }else{
+      lastCommand = jsonCommand
       socket.send(jsonCommand);
     }
     timerId = setTimeout(() => {
