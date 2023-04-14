@@ -92,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
     socket.onmessage = function(event){
       clearTimeout(timerId);
       textArea.value+=event.data;
+      textArea.value += '\n'
       textArea.scrollTop = textArea.scrollHeight;
       let message = event.data.toString();
       if (message.includes("Success")){
