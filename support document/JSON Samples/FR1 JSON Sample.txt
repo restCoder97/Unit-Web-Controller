@@ -13,7 +13,8 @@
   "uplinkChannel": "165800",
   "downlinkChannel": "174800",
   "echoDelay": 0,
-  "bandwidthUnits": "MHz"
+  "bandwidthUnits": "MHz",
+   "Command":""
 }
 
 

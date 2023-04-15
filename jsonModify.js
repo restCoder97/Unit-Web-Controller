@@ -1,27 +1,4 @@
-export const wifi_json_template = {
-    "testType": "BE",
-    "mode": "11ax",
-    "sisoOrMimo": "SISO",
-    "tone": "242T",
-    "bandedgeLowOrHigh": "Low",
-    "frequency": "5180",
-    "power": "1",
-    "antenna": "1",
-    "dataRate": "MCS0",
-    "resourceUnit": "RU61",
-    "band": "5.3",
-    "transmissionDuration": "1",
-    "period": "1",
-    "polarity": "H",
-    "technology": "WLAN U-NII 11ax",
-    "channel": "38",
-    "echoDelay": 0,
-    "mimoScheme": "",
-    "bandwidth": 40,
-    "bandwidthUnits": "MHz",
-    "bandageLowOrHigh": ""
-  }
-
+export const DUT_TYPE_MAPPING_EXT = ['ww1703_row', 'ww1703_na', 'aa1704', 'cc2003', 'cc1906', 'cc1802', 'cc2010_non_sig', 'cc2010_sig', 'aa2xx6', 'wifi_bt_uwb_aa2xx6', 'cell_wifi_bt_aa2xx6', 'aa21xx', 'aa21xx_wifi_bt', 'cc2018_non_sig', 'cc2018_sig', 'bb1704', 'c38', 'bb1912', 'bb20xx', 'cc2003', 'aa200x_wifi', 'aa200x_bt', 'aa200x_cell', 'aa200x_cell_wifi_bt', 'aa200x_tethered_nonsig', 'bb2103_wifi', 'bb2103_bt', 'bb2103_wifi_bt', 'bb2004_bt', 'bb1912_wifi_bt', 'bb2004_wifi_bt', 'zz2053_bt', 'bb2010_wifi_bt', 'bb1805_wifi_bt', 'bb1805_thread', 'dut_aa21x3_aa21x7_wifi', 'dut_aa21x3_aa21x7_bt', 'dut_aa21x3_aa21x7_cell', 'dut_aa21x3_aa21x7_cell_sig_', 'dut_aa21x3_aa21x7_2rx_cell', 'dut_aa22x3_aa22x7_wifi', 'dut_aa22x3_aa22x7_bt', 'dut_aa22x3_aa22x7_cell', 'dut_aa22x3_aa22x7_cell_sig', 'dut_aa22x3_aa22x7_2rx_cell', 'cell_regulatory_aa22x3_aa22x7_non_sig', 'cell_regulatory_aa22x3_aa22x7_sig', 'projectx_aa22x3_aa22x7', 'aa22x3_thread', 'aa22x3_wifi_bt', 'dut_r2_uwb_diags', 'bb2113_wifi_bt_thread', 'bb2112_wifi_bt_thread', 'bb2206_wifi_bt_thread', 'bb2205_wifi_bt_thread'];
 
 export var wifi_par_dict = {
     "Technology":["U-NII","DTS"],
@@ -127,7 +104,29 @@ export var lte_par_dict = {
   "Channel": ["19957"],
   "Power": "1-100",
 }
-  
+export var wifi_json_template = {
+  "testType": "BE",
+  "mode": "11",
+  "sisoOrMimo": "SISO",
+  "tone": "242T",
+  "bandedgeLowOrHigh": "Low",
+  "frequency": "5180",
+  "power": "1",
+  "antenna": "1",
+  "dataRate": "MCS0",
+  "resourceUnit": "RU61",
+  "band": "5.3",
+  "transmissionDuration": "1",
+  "period": "1",
+  "polarity": "H",
+  "technology": "WLAN U-NII 11n",
+  "channel": "38",
+  "echoDelay": 0,
+  "mimoScheme": "",
+  "bandwidth": 40,
+  "bandwidthUnits": "MHz",
+  "bandageLowOrHigh": ""
+}
 export var lte_json_template = {
   "band": "B4",
   "bandwidth": "1.4",

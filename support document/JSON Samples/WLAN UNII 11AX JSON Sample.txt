@@ -1,6 +1,6 @@
 {
   "testType": "BE",
-  "mode": "11n",
+  "mode": "11",
   "sisoOrMimo": "SISO",
   "tone": "242T",
   "bandedgeLowOrHigh": "Low",
