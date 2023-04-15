@@ -1,7 +1,7 @@
 
 // Get the subtitle buttons and the main page element
 import {choiceToJsonCommand,commandToChoice} from "./jsonModify.js";
-import {wifi_par_dict,bt_par_dict,lte_par_dict,fr1_par_dict}  from "./jsonModify.js";
+import {wifi_par_dict,bt_par_dict,lte_par_dict,fr1_par_dict,DUT_TYPE_MAPPING_EXT}  from "./jsonModify.js";
 import {adjust_selection}  from "./adjust.js";
 import { qurey,connect,completeEmitting} from "./network.js";
 import {readFR1Channels} from "./adjust.js"
@@ -28,12 +28,7 @@ var listen_button = null;
 var lastCommand = null;
 
 
-var timerId = setTimeout(() => {
-  if (socket.readyState === WebSocket.OPEN) {
-    // Connection is still open but no response received
-    alert('No response received within 30 seconds');
-  }
-}, 9999999999999999);;
+
 console.log(subtitleButtons.length);
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -51,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var comport_input = null;
   textArea = document.getElementById("dialog");
   var socket = null
+  setTestType();
   
   //coonecting socket
   listen_button.addEventListener('click',()=>{
@@ -90,7 +86,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     socket.onmessage = function(event){
-      clearTimeout(timerId);
       textArea.value+=event.data;
       textArea.value += '\n'
       textArea.scrollTop = textArea.scrollHeight;
@@ -98,7 +93,6 @@ document.addEventListener('DOMContentLoaded', function() {
       if (message.includes("Success")){
         status.innerText = "Success"; 
         status.style.color = 'green';
-        clearTimeout(timerId);
         completeEmitting();
       }else if (message.includes("Ready!")){
         send_button.disabled = false;
@@ -158,12 +152,6 @@ document.addEventListener('DOMContentLoaded', function() {
       lastCommand = jsonCommand
       socket.send(jsonCommand);
     }
-    timerId = setTimeout(() => {
-      if (socket.readyState === WebSocket.OPEN) {
-        // Connection is still open but no response received
-        alert('No response received within 30 seconds');
-      }
-    }, 90000);
 
     
   })
@@ -265,6 +253,22 @@ export function databaseSelection(data){
 }
 
 
+function setTestType(){
+  var str = ''
+  if (current_test == 'WIFI'){str = 'wifi'}
+  else if (current_test == 'BT'){str ='bt'}
+  else if (current_test == 'LTE'){str = 'cell'}
+  else if (current_test == 'FR1'){str = 'sig'}
 
+ 
+  const datalist = document.getElementById('tmp_datalist');
+  for(let k= 0;k<DUT_TYPE_MAPPING_EXT.length; k++){
+    if(DUT_TYPE_MAPPING_EXT[k].includes(str)){
+      let option1 = document.createElement("option");
+      option1.value = DUT_TYPE_MAPPING_EXT[k];
+      datalist.appendChild(option1);
+    }
+  }
+}
 
 
