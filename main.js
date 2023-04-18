@@ -69,12 +69,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const str_port = port_input.value;
     const str_chamber = chamber_input.value;
     const str_comport = comport_input.value;
-
+    const str_test_type = document.getElementById("test_type").value
     socket = new WebSocket(`ws://${str_ip}:${str_port}`);
     socket.onopen = function (event) {
       status.innerText = "Connected, Setting dut......";
       status.style.color = 'green';
-      socket.send(JSON.stringify({"chamber":str_chamber,"test":current_test,"comport":str_comport}));
+      socket.send(JSON.stringify({"chamber":str_chamber,"test":str_test_type,"comport":str_comport}));
     };
     socket.onerror=function(event){
       status.innerText = "Connection Failed";
