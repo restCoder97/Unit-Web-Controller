@@ -7,7 +7,8 @@ export var wifi_par_dict = {
     "Bandwidth":["20 MHz","40 MHz","80 Mhz","160 MHz"],
     "Channel": "1-165",
     "Rate": "0-16",
-    "RU-Length":["RU26","RU52", "RU106","RU242","RU484","RU968","RU61"],
+    "RU-Index":["RU0","RU4", "RU8","RU9","RU17","RU18","RU36","RU37","RU38","RU39","RU40","RU41","RU44","RU45","RU52","RU53","RU54","RU55","RU56","RU61","RU62","RU63","RU64","RU65","RU66","RU67","RU68"],
+    "RU-Length": ["26T","52T","106T","242T","484T","996T"],
     "Power-in-Q":"1-100"
 }
 
@@ -38,8 +39,9 @@ export function commandToChoice(command){
         choiceDict["RU-Length"] = wifi_par_dict["RU-Length"][4];
         break;
       default:
-        choiceDict["RU-Length"] = "RU61";
+        choiceDict["RU-Length"] = "";
     }
+    choiceDict['RU-Index'] = command['Index'];
     if (command["Mode"].includes("UNII")){
       choiceDict["Technology"] = "U-NII";
     }else{
@@ -157,7 +159,8 @@ export var fr1_json_template = {
   "uplinkChannel": "165800",
   "downlinkChannel": "174800",
   "echoDelay": 0,
-  "bandwidthUnits": "MHz"
+  "bandwidthUnits": "MHz",
+  "command": "Toggle"
 }
 const bandstring = "N1,N2,N3,N5,N7,N8,N12,N20,N25,N28,N30,N38,N40,N41,N48,N66,N71,N77,N78,N79,N77,N78,N79,N77,N78,N79,N77,N78,N79";
 export var fr1_par_dict = {
@@ -165,12 +168,12 @@ export var fr1_par_dict = {
   "Band": bandstring.split(','),
   "Bandwidth": ["5","10","15","20","30","40","50","60","70","80","90","100"],
   "RB-Offset": ["1-0"],
-  "Modulation": ["QPSK","16QAM","64QAM","256QAM","BPSK"],
   "Frequency": ["1850.7"],
-  "Ant": ["1","2","3"],
   "Uplink": ["19957"],
   "Downlink": ["19957"],
-  "Sub-Carrier-Spacing":["1500","3000"],
+  "Modulation": ["QPSK","16QAM","64QAM","256QAM","BPSK"],
+  "Ant": ["1","2","3"],
+  "Sub-Carrier-Spacing":["15000","30000"],
   "Power-Class":["1","2","3"],
   "Power": "1-100",
 }
@@ -190,9 +193,19 @@ export function choiceToJsonCommand(dict,testType) {
       }
       dict_command['power'] = "" + (parseInt(dict['Power-in-Q'])/4);
       dict_command['antenna'] = dict['Ant'];
+      if (dict_command['sisoOrMimo'] == "MIMO"){
+        dict_command['antenna'] = "1+2";
+      }
       dict_command['dataRate'] = "MCS" + dict['Rate'];
       if (dict['Mode'].includes('RU')){
-        dict_command["resourceUnit"] = dict['RU-Length'];
+        dict_command['tone'] = dict['RU-Length'];
+        dict_command["resourceUnit"] = dict['RU-Index'];
+      }else{
+        dict_command['tone'] = 'SU';
+        dict_command["resourceUnit"] = '';
+      }
+      if (dict['Mode'].includes("ac")){
+        dict_command["mimoScheme"] = 'CDD';
       }
       dict_command["technology"] = "WLAN " + dict["Technology"]+" "+dict_command['mode'];
       dict_command['channel'] = dict["Channel"];
