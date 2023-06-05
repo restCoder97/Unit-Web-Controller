@@ -8,9 +8,8 @@ export function adjust_selection(test,id,value){
             modeDataList = groups.children();
         }
     }else if(test === "FR1"){
-        if(id == "Band"||id == "Bandwidth"){
+        if(id == "Band"||id == "Bandwidth"||id == 'Uplink'||id == 'Downlink'){
             filteredChannelList = filtChannel(id,value,filteredChannelList);
-            
         }else if(id == "Modulation"){
             filteredChannelList = filtChannel("Mode",value,filteredChannelList);
         }
@@ -20,19 +19,27 @@ export function adjust_selection(test,id,value){
         var dl_downlink = document.getElementById('Downlink');
         var dl_bandwidth = document.getElementById('Bandwidth');
         var dl_modulation = document.getElementById('Modulation');
-        const tmpList = [dl_RB,dl_uplink,dl_downlink,dl_bandwidth,dl_modulation];
-        var rbList = new Set(), uplink = new Set(), downlink = new Set(), bandwidth= new Set(),  modulation = new Set();
+        var dl_frequency = document.getElementById('Frequency');
+        const tmpList = [dl_RB,dl_uplink,dl_downlink,dl_bandwidth,dl_modulation,dl_frequency];
+        var rbList = new Set(), uplink = new Set(), downlink = new Set(), bandwidth= new Set(),  modulation = new Set(), frequency = new Set();
         for(var i = 0; i<filteredChannelList.length;i++){
             const dic = filteredChannelList[i];
             if ("Full RB Min" in dic){rbList.add(dic["Full RB Min"])}
-            rbList.add(dic['1/Min RB'])
-            rbList.add(dic['1/Half RB'])
-            rbList.add(dic['1/Max RB'])
-            rbList.add(dic['Full RB'])
-            uplink.add(dic['Up-Channel'])
-            downlink.add(dic['Down-Channel'])
-            bandwidth.add(dic["Bandwidth"])
-            modulation.add(dic["Mode"])
+            if ("Full RB Max" in dic){rbList.add(dic["Full RB Max"])}
+            if ('1/Min RB' in dic){rbList.add(dic['1/Min RB'])}
+            if ('1/Half RB' in dic){rbList.add(dic['1/Half RB'])}
+            if ('1/Max RB' in dic){rbList.add(dic['1/Max RB'])}
+            if ('Full RB' in dic){rbList.add(dic['Full RB'])}
+            if ('Up-Channel' in dic){uplink.add(dic['Up-Channel'])}
+            if ('Down-Channel' in dic){downlink.add(dic['Down-Channel'])}
+            if ('Bandwidth' in dic){bandwidth.add(dic["Bandwidth"])}
+            if ('Mode' in dic){modulation.add(dic["Mode"])}
+            if ('Channel' in dic){
+                uplink.add(dic['Channel'])
+                downlink.add(dic['Channel'])
+            }
+            if('UP-Frequency' in dic){frequency.add(dic['UP-Frequency'])}
+            if ('Frequency' in dic) {frequency.add(dic['Frequency'])}
         }
         for(var i = 0;i<5;i++){
             tmpList[i].innerHTML = '';
@@ -42,6 +49,8 @@ export function adjust_selection(test,id,value){
         addOptions(dl_downlink,Array.from(downlink));
         addOptions(dl_bandwidth,Array.from(bandwidth));
         addOptions(dl_modulation,Array.from(modulation));
+        addOptions(dl_frequency,Array.from(frequency));
+        
     }
 }
 

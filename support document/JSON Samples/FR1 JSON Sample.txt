@@ -14,7 +14,7 @@
   "downlinkChannel": "174800",
   "echoDelay": 0,
   "bandwidthUnits": "MHz",
-   "Command":""
+   "command":"Toggle"
 }
 
 

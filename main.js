@@ -26,6 +26,8 @@ var current_test = "";
 var textArea = null;
 var listen_button = null;
 var lastCommand = null;
+var awaitSend = null;
+var firstTimeConneect = true;
 
 
 
@@ -61,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
     comport_input = document.getElementById('comport');
 
     if(current_test == "" || chamber_input.value == ""){
-      alert("Select a Everything!");
+      alert("Select Everything!");
       return
     }
     status.innerText = "Connecting";
@@ -74,7 +76,12 @@ document.addEventListener('DOMContentLoaded', function() {
     socket.onopen = function (event) {
       status.innerText = "Connected, Setting dut......";
       status.style.color = 'green';
-      socket.send(JSON.stringify({"chamber":str_chamber,"test":str_test_type,"comport":str_comport}));
+      if (firstTimeConneect){
+        socket.send(JSON.stringify({"chamber":str_chamber,"test":str_test_type,"comport":str_comport}));
+        firstTimeConneect = false
+      }else if(awaitSend){
+        socket.send(awaitSend)
+      }
     };
     socket.onerror=function(event){
       status.innerText = "Connection Failed";
@@ -131,6 +138,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
   }
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
   //sending socket
   send_button.addEventListener('click',()=>{
@@ -147,13 +157,21 @@ document.addEventListener('DOMContentLoaded', function() {
       var tmp = JSON.parse(jsonCommand);
       tmp['State'] = 'TxPowerChange';//state pnly change power
       jsonCommand  = JSON.stringify(tmp);
+      if (socket.readyState == WebSocket.CLOSED){
+        socket = new WebSocket(`ws://${ip_input.value}:${port_input.value}`);
+        awaitSend = jsonCommand
+        return
+      }
       socket.send(jsonCommand);
     }else{
+      if (socket.readyState == WebSocket.CLOSED){
+        socket = new WebSocket(`ws://${ip_input.value}:${port_input.value}`);
+        awaitSend = jsonCommand;
+        return
+      }
       lastCommand = jsonCommand
       socket.send(jsonCommand);
     }
-
-    
   })
   // Listen for click events on the subtitle buttons
   subtitleButtons.forEach(button => {
