@@ -28,7 +28,7 @@ var listen_button = null;
 var lastCommand = null;
 var awaitSend = null;
 var firstTimeConneect = true;
-
+var powerChangeTime = 0
 
 
 console.log(subtitleButtons.length);
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
       dic_choices[k] = choice;
     }
     var jsonCommand = choiceToJsonCommand(dic_choices,selected_test);
-    if (isWifiPowerChange(JSON.parse(jsonCommand))){//check if only power changed
+    if (isWifiPowerChange(JSON.parse(jsonCommand))&&powerChangeTime<100){//check if only power changed
       var tmp = JSON.parse(jsonCommand);
       tmp['State'] = 'TxPowerChange';//state pnly change power
       jsonCommand  = JSON.stringify(tmp);
@@ -163,6 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return
       }
       socket.send(jsonCommand);
+      powerChangeTime += 1;
     }else{
       if (socket.readyState == WebSocket.CLOSED){
         socket = new WebSocket(`ws://${ip_input.value}:${port_input.value}`);
@@ -171,6 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       lastCommand = jsonCommand
       socket.send(jsonCommand);
+      powerChangeTime = 0
     }
   })
   // Listen for click events on the subtitle buttons
@@ -252,11 +254,16 @@ export function databaseSelection(data){
   if(remoteControl){
     return
   }
+  if("redo" in data){
+    powerChangeTime = 1000;
+    textArea.value+= "ReDo Same Channel!\n";
+    textArea.scrollTop = textArea.scrollHeight;
+  }
   const chocies = commandToChoice(data);
   textArea.value+= "New Command Found From Databse!\n";
   textArea.scrollTop = textArea.scrollHeight;
   for(const k in chocies){
-    if (document.querySelector(`#input${k}`).value != chocies[k]){
+    if (document.querySelector(`#input${k}`).value !== chocies[k]){
       document.querySelector(`#input${k}`).value = chocies[k];
       setTimeout(function() {
         var label = document.querySelector(`#label${k}`);
