@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (message.includes("Success")){
         status.innerText = "Success"; 
         status.style.color = 'green';
-        completeEmitting();
+        completeEmitting(lastCommand);
       }else if (message.includes("Ready!")){
         send_button.disabled = false;
         listen_button.disabled = false;
@@ -285,7 +285,6 @@ function setTestType(){
   else if (current_test == 'LTE'){str = 'cell'}
   else if (current_test == 'FR1'){str = 'sig'}
 
- 
   const datalist = document.getElementById('tmp_datalist');
   for(let k= 0;k<DUT_TYPE_MAPPING_EXT.length; k++){
     if(DUT_TYPE_MAPPING_EXT[k].includes(str)){
@@ -295,5 +294,7 @@ function setTestType(){
     }
   }
 }
+
+
 
 

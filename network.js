@@ -35,11 +35,12 @@ export async function qurey(chamber,information){
       }
 }
 
-export async function completeEmitting(){
+export async function completeEmitting(data = NaN){
     await setDoc(doc(db,selected_chamber,"emitted"),lastCommand);
-    await setDoc(doc(db,selected_chamber,"status"),{"status":"Sent:"});
+    await setDoc(doc(db,selected_chamber,"status"),{"status":"Sent:","Json":data});
     console.log("Notified Server!");
 }
+
 
 export async function connect(chamber,remoteMode = false){
     selected_chamber = chamber;

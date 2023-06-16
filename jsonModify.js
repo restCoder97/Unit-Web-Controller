@@ -257,7 +257,7 @@ export function choiceToJsonCommand(dict,testType) {
       if(!isNaN(s_channel) && parseInt(s_channel)>600){//Wifi 6E
         dict_command['channel'] = (parseInt(s_channel)-600).toString()
         //dict_command["channel"] = dict_command["channel"].substring(2)
-        dict_command["mimoScheme"] = "OFDMA" 
+        dict_command['band'] = '6.0'
       }
       dict_command['bandwidth'] = parseInt(dict["Bandwidth"].split(" ")[0]);
       return JSON.stringify(dict_command);
