@@ -35,9 +35,15 @@ export async function qurey(chamber,information){
       }
 }
 
-export async function completeEmitting(data = NaN){
+export async function completeEmitting(data = NaN,bt_raw = ""){
     await setDoc(doc(db,selected_chamber,"emitted"),lastCommand);
     await setDoc(doc(db,selected_chamber,"status"),{"status":"Sent:","Json":data});
+    //await setDoc(doc(db,selected_chamber,"status"),{"status":"Sent:","Json":data});
+    /*if(bt_raw!=""){
+      await setDoc(doc(db,selected_chamber,"status"),{"status":"Sent:","Json":data,"bt_raw":bt_raw});
+    }else{
+      await setDoc(doc(db,selected_chamber,"status"),{"status":"Sent:","Json":data});
+    }*/
     console.log("Notified Server!");
 }
 

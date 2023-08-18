@@ -38,13 +38,13 @@ document.addEventListener('DOMContentLoaded', function() {
   subtitleButtons = document.querySelectorAll('.subtitle button');
   var status = document.getElementById('status_span');
   send_button = document.querySelector('#send-button');
-  send_button.disabled = true;
+  send_button.disabled = false;
   var remote_button = document.querySelector('#remote-button');
   var ip_input = document.getElementById('ip-address');
   var port_input = document.getElementById('port');
   var connect_button = document.querySelector('.connect-form button');
   listen_button = document.querySelector('#listen-button');
-  listen_button.disabled = true
+  listen_button.disabled = false
   var comport_input = null;
   textArea = document.getElementById("dialog");
   var socket = null
@@ -91,16 +91,25 @@ document.addEventListener('DOMContentLoaded', function() {
       status.innerText = "Connected, Setting dut......";
       status.style.color = 'green';
     });
-    
+    var bt_raw_data = ""
     socket.onmessage = function(event){
       textArea.value+=event.data;
       textArea.value += '\n'
       textArea.scrollTop = textArea.scrollHeight;
       let message = event.data.toString();
-      if (message.includes("Success")){
+      if (current_test == "BT" && message.includes("'bluetooth --send_raw")){
+        bt_raw_data += '\n'
+        bt_raw_data += event.data
+      }
+      if (message.includes("Success") && message.includes("status")){
         status.innerText = "Success"; 
         status.style.color = 'green';
-        completeEmitting(lastCommand);
+        if (bt_raw_data!=""){
+          completeEmitting(lastCommand,bt_raw_data);
+        }else{
+          completeEmitting(lastCommand);
+        }
+        bt_raw_data = ""
       }else if (message.includes("Ready!")){
         send_button.disabled = false;
         listen_button.disabled = false;
@@ -125,6 +134,9 @@ document.addEventListener('DOMContentLoaded', function() {
   
   function isWifiPowerChange(newCommand){
     try{
+      if (newCommand['technology'].includes('BT')){
+        return false
+      }
       delete newCommand.power;
       for(const k in newCommand){
         if(!(k in JSON.parse(lastCommand))){return false;}
