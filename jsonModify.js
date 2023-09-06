@@ -90,8 +90,10 @@ export function commandToChoice(command){
       choiceDict["Mode"] = "11b";
     }else if(mode.includes("11g")){
       choiceDict["Mode"] = "11g";
-    }else{
+    }else if(mode.includes("11n")){
       choiceDict["Mode"] = "11n";
+    }else{
+      choiceDict["Mode"] = "11a";
     }
   } 
 
@@ -116,7 +118,7 @@ export function commandToChoice(command){
     for(const k in choiceDict){
       let s = k.toString().toLowerCase()
       if(s in command){choiceDict[k] = command[s]}
-      if(k == 'RB-Offset'){choiceDict[k] =command['rb']}
+      if(k == 'RB-Offset'){choiceDict[k] = command['rb']}
     }
   }
   else if (tech=="BT"||tech == "BT-5G"||tech == "Bluetooth" ){//BT 
