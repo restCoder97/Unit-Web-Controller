@@ -3,6 +3,7 @@
 <script type="module" src="./jsonModify.js"></script>
 <script type="module" src="./adjust.js"></script>
 <script type="module" src="./main.js"></script>
+<script type="module" src="./network.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
 
@@ -124,8 +125,6 @@
 			margin-top: 30px;
 		}
 
-
-
         .status {
             display: flex;
             align-items: center;
@@ -239,7 +238,10 @@
 				<label for="comport number">Comport:</label>
 				<input type="text" id="comport" name="comport" value="/dev/cu.usbmodem1302">
 			</div>
-            <button id="connect-button">Connect</button>
+			<div>
+            	<button id="connect-button">Connect</button>
+				<button id="recall-button">Recall</button> 
+			</div>
       </div>
     </div>
 

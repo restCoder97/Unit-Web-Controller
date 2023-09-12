@@ -9,7 +9,8 @@ export var wifi_par_dict = {
     "Rate": "0-16",
     "RU-Index":["RU0","RU4", "RU8","RU9","RU17","RU18","RU36","RU37","RU38","RU39","RU40","RU41","RU44","RU45","RU52","RU53","RU54","RU55","RU56","RU61","RU62","RU63","RU64","RU65","RU66","RU67","RU68"],
     "RU-Length": ["26T","52T","106T","242T","484T","968T","996T"],
-    "Power-in-Q":"1-100"
+    "Power-in-Q":"1-100",
+    "Shoulder":["Low","High"]
 }
 
 const bandstring = "N1,N2,N3,N5,N7,N8,N12,N20,N25,N28,N30,N38,N40,N41,N48,N66,N71,N77,N78,N79,N77,N78,N79,N77,N78,N79,N77,N78,N79";
@@ -51,6 +52,9 @@ export function commandToChoice(command){
     choiceDict["Channel"] = command["Channel"].toString();
     choiceDict["Rate"] = command["Rate"].toString();
     choiceDict["Power-in-Q"] = command["Power"].toString();
+    if (command["Shoulder"] !== undefined){
+      choiceDict["Shoulder"] = command["Shoulder"]
+    }
     switch(command["Length"]) {
       case "375":
         choiceDict["RU-Length"] = "26T";
@@ -276,6 +280,7 @@ export function choiceToJsonCommand(dict,testType) {
       if (dict['Mode'].includes("ac")){
         dict_command["mimoScheme"] = 'CDD';
       }
+      if(dict['Shoulder'] !== null){dict_command['bandedgeLowOrHigh'] = dict['Shoulder']}
       dict_command["technology"] = "WLAN " + dict["Technology"]+" "+dict_command['mode'];
       dict_command['channel'] = dict["Channel"];
       let s_channel = dict_command["channel"]

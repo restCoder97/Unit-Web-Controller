@@ -3,7 +3,7 @@
 import {choiceToJsonCommand,commandToChoice} from "./jsonModify.js";
 import {wifi_par_dict,bt_par_dict,lte_par_dict,fr1_par_dict,DUT_TYPE_MAPPING_EXT}  from "./jsonModify.js";
 import {adjust_selection}  from "./adjust.js";
-import { qurey,connect,completeEmitting} from "./network.js";
+import { qurey,connect,completeEmitting,update_status} from "./network.js";
 import {readFR1Channels} from "./adjust.js"
 Element.prototype.remove = function() {
   this.parentElement.removeChild(this);
@@ -25,11 +25,17 @@ var selected_test = null;
 var current_test = "";
 var textArea = null;
 var listen_button = null;
+var recall_button = null
+var connect_button = null;
 var lastCommand = null;
 var awaitSend = null;
 var firstTimeConneect = true;
 var powerChangeTime = 0
-
+var flag_reset = false;
+var is_ready = false;
+export function flagReset(){
+  flag_reset = true
+}
 
 console.log(subtitleButtons.length);
 
@@ -42,10 +48,13 @@ document.addEventListener('DOMContentLoaded', function() {
   var remote_button = document.querySelector('#remote-button');
   var ip_input = document.getElementById('ip-address');
   var port_input = document.getElementById('port');
-  var connect_button = document.querySelector('.connect-form button');
+  connect_button = document.querySelector('.connect-form button');
+  recall_button = document.getElementById('recall-button');
+  var chamber_input = document.getElementById('chamber-dropdown');
+  var test_type_input = document.getElementById("test_type")
   listen_button = document.querySelector('#listen-button');
   listen_button.disabled = false
-  var comport_input = null;
+  var comport_input = document.getElementById('comport');
   textArea = document.getElementById("dialog");
   var socket = null
   setTestType();
@@ -55,23 +64,36 @@ document.addEventListener('DOMContentLoaded', function() {
     connect(document.getElementById('chamber-dropdown').value);
   })
 
+  recall_button.addEventListener('click', ()=>{
+    recall()
+  })
+
   connect_button.addEventListener('click',()=>{
     ip_input = document.getElementById('ip-address');
     port_input = document.getElementById('port');
-    var chamber_input = document.getElementById('chamber-dropdown');
+    document.getElementById('chamber-dropdown');
     connect_button = document.querySelector('.connect-form button');
     comport_input = document.getElementById('comport');
-
+    test_type_input = document.getElementById("test_type")
+    
     if(current_test == "" || chamber_input.value == ""){
-      alert("Select Everything!");
+      alert("Select Somthing!");
       return
     }
+  
     status.innerText = "Connecting";
     const str_ip = ip_input.value;
     const str_port = port_input.value;
     const str_chamber = chamber_input.value;
     const str_comport = comport_input.value;
     const str_test_type = document.getElementById("test_type").value
+    localStorage.setItem('IP', str_ip);
+    localStorage.setItem('Port', str_port);
+    localStorage.setItem('Chamber', str_chamber);
+    localStorage.setItem('Comport', str_comport);
+    localStorage.setItem('Test_Type', str_test_type);
+    localStorage.setItem('Test',current_test)
+    socket = null;
     socket = new WebSocket(`ws://${str_ip}:${str_port}`);
     socket.onopen = function (event) {
       status.innerText = "Connected, Setting dut......";
@@ -115,6 +137,8 @@ document.addEventListener('DOMContentLoaded', function() {
         listen_button.disabled = false;
         status.innerText = "Connected, DUT Ready!";
         status.style.color = 'green';
+        is_ready = true
+        update_status("Ready")
       }
       
     }
@@ -154,8 +178,33 @@ document.addEventListener('DOMContentLoaded', function() {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+  function recall( ){
+    const savedIP = localStorage.getItem('IP');
+    if (savedIP == null){
+      alert("Nothing to Recall!");
+      return
+    }
+    const savedPort = localStorage.getItem('Port');
+    const savedComport = localStorage.getItem('Comport');
+    const savedChamber = localStorage.getItem('Chamber');
+    const savedTestType = localStorage.getItem('Test_Type');
+    const savedTest = localStorage.getItem("Test")
+    ip_input.value = savedIP
+    port_input.value = savedPort
+    comport_input.value = savedComport
+    test_type_input.value = savedTestType
+    chamber_input.value = savedChamber
+    for(var i=0; i<subtitleButtons.length;i++){
+      if (subtitleButtons[i].textContent == savedTest){
+        subtitleButtons[i].click()
+        break
+      }
+    }
+  }
+
   //sending socket
   send_button.addEventListener('click',()=>{
+    
     status.innerText = "Waiting DUT Reply";
     status.style.color = 'yellow';
     var dic_choices = {};
@@ -165,6 +214,16 @@ document.addEventListener('DOMContentLoaded', function() {
       dic_choices[k] = choice;
     }
     var jsonCommand = choiceToJsonCommand(dic_choices,selected_test);
+    
+    if (flag_reset){
+      var object = JSON.parse(jsonCommand)
+      object['restart'] = ""
+      socket.send(JSON.stringify(object))
+      flag_reset = false
+      update_status("Resetting")
+      return
+    }
+
     if (isWifiPowerChange(JSON.parse(jsonCommand))&&powerChangeTime<100){//check if only power changed
       var tmp = JSON.parse(jsonCommand);
       tmp['State'] = 'TxPowerChange';//state pnly change power
@@ -289,7 +348,6 @@ export function databaseSelection(data){
   send_button.click();
 }
 
-
 function setTestType(){
   var str = ''
   if (current_test == 'WIFI'){str = 'wifi'}
@@ -305,6 +363,23 @@ function setTestType(){
       datalist.appendChild(option1);
     }
   }
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+export function recall_page(){
+  sleep(5000)
+  location.reload()
+  sleep(2000)
+  recall_button.click()
+  connect_button.click()
+  while(!is_ready){
+    sleep(2)
+  }
+  listen_button.click()
 }
 
 

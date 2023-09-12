@@ -4,7 +4,7 @@ import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.1/firebase
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"
 import { collection, getDoc, addDoc, Timestamp,doc} from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"
 import { query, orderBy, limit, where, onSnapshot,setDoc } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"
-import { databaseSelection } from "./main.js";
+import { databaseSelection,flagReset,recall_page } from "./main.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -24,6 +24,13 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 var selected_chamber = "";
 var lastCommand = {};
+var aSocket =  new WebSocket(`ws://127.0.0.1:9669`);
+aSocket.onmessage = function(event){
+  if (event.data == "Websocket Good"){
+    var btconnect = document.querySelector('.connect-form button');
+    btconnect.click()
+  }
+}
 
 export async function qurey(chamber,information){    
     const docRef = doc(db,chamber,information);
@@ -59,4 +66,23 @@ export async function connect(chamber,remoteMode = false){
           lastCommand = doc.data();
           databaseSelection(doc.data());
     });
+    const onInformation = onSnapshot(
+      doc(db, chamber, "information"), 
+      { includeMetadataChanges: true }, 
+      (doc) => {
+          var lastInformation = doc.data();
+          if (lastInformation['status'] !== null && lastInformation['status'] == 'Restart'){
+            //flagReset()
+            //databaseSelection(lastCommand);
+            console.log("OK");
+          }
+    });
+
 }
+
+export async function update_status(status){
+  if(selected_chamber!==""){
+    await setDoc(doc(db,selected_chamber,"information"),{"status":status});
+  }
+}
+
