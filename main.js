@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
   connect_button = document.querySelector('.connect-form button');
   recall_button = document.getElementById('recall-button');
   var chamber_input = document.getElementById('chamber-dropdown');
+  var firmware_input = document.getElementById('firmware-dropdown');
   var test_type_input = document.getElementById("test_type")
   listen_button = document.querySelector('#listen-button');
   listen_button.disabled = false
@@ -87,19 +88,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const str_chamber = chamber_input.value;
     const str_comport = comport_input.value;
     const str_test_type = document.getElementById("test_type").value
+    const str_test_firmware = firmware_input.value
     localStorage.setItem('IP', str_ip);
     localStorage.setItem('Port', str_port);
     localStorage.setItem('Chamber', str_chamber);
     localStorage.setItem('Comport', str_comport);
     localStorage.setItem('Test_Type', str_test_type);
     localStorage.setItem('Test',current_test)
+    localStorage.setItem('Firmware',str_test_firmware)
     socket = null;
     socket = new WebSocket(`ws://${str_ip}:${str_port}`);
     socket.onopen = function (event) {
       status.innerText = "Connected, Setting dut......";
       status.style.color = 'green';
       if (firstTimeConneect){
-        socket.send(JSON.stringify({"chamber":str_chamber,"test":str_test_type,"comport":str_comport}));
+        socket.send(JSON.stringify({"chamber":str_chamber,"test":str_test_type,"comport":str_comport,"firmware":str_test_firmware}));
         firstTimeConneect = false
       }else if(awaitSend){
         socket.send(awaitSend)
@@ -189,11 +192,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const savedChamber = localStorage.getItem('Chamber');
     const savedTestType = localStorage.getItem('Test_Type');
     const savedTest = localStorage.getItem("Test")
+    const savedFirmware = localStorage.getItem("Firmware")
     ip_input.value = savedIP
     port_input.value = savedPort
     comport_input.value = savedComport
     test_type_input.value = savedTestType
     chamber_input.value = savedChamber
+    firmware_input.value = savedFirmware
     for(var i=0; i<subtitleButtons.length;i++){
       if (subtitleButtons[i].textContent == savedTest){
         subtitleButtons[i].click()
