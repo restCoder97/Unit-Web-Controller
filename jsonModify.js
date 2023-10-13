@@ -31,10 +31,10 @@ export var fr1_par_dict = {
 
 export var bt_par_dict = {
   "Technology":["Bluetooth_HDR","Bluetooth_BT","Bluetooth_BLE","BT5G_BLE","BT5G_HDR","BT5G_BT"],
-  "Band":["UNII-1","UNII-2","UNII-3","UNII-4","UNII-5","UNII-6","UNII-7","UNII-8"],
+  "Band":["UNII-1","UNII-2","UNII-3","UNII-4","UNII-5A","UNII-5B","UNII-5C","UNII-5D"],
   "Mode":["HDR4","HDR8","HDRp4","HDRp8","BDR","EDR","BLE"],
   "Ant": ["1","2","3"],
-  "Frequency": ["2402","2404","2440","2441","2478","2480"],
+  "Frequency": ["2402","2404","2441","2478","2480","2476","5150","6051","5162","5245","5733","5844","5953","6420"],
   "Modulation":["GFSK","QPSK","8PSK"],
   "Power_Mode":["EPA","IPA"],
   "Data_Rate":["1Mbps","2Mbps"],
@@ -129,6 +129,7 @@ export function commandToChoice(command){
     choiceDict = bt_par_dict
     for(const k in choiceDict){
       let s = k.toString().toLowerCase()
+      if (s == "ant" && command[s].includes("Diversity")){choiceDict[k] = "Diversity"}
       if(s in command){choiceDict[k] = command[s]}
       //if(s.includes("power")){choiceDict["Power-Index"] = command['power']}
     }
