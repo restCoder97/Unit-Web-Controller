@@ -255,16 +255,18 @@ export function choiceToJsonCommand(dict,testType) {
     if(testType === "WIFI"){
       var dict_command = wifi_json_template;
       dict_command['mode'] = dict['Mode'].split('-')[0];
-      if(dict['Ant']=='3' || dict['Ant'] == '5'){
+      if(dict['Ant']=='3' || dict['Ant'].includes("+")){
         dict_command['sisoOrMimo'] = "MIMO";
+        dict_command['mimoScheme'] = "CDD"
       }else{
         dict_command['sisoOrMimo'] = "SISO";
+        dict_command['mimoScheme'] = "SISO"
       }
       dict_command['power'] = "" + (parseInt(dict['Power-in-Q'])/4);
       dict_command['antenna'] = dict['Ant'];
       if (dict_command['sisoOrMimo'] == "MIMO"){
         if (dict['Ant']=='3'){
-          dict_command['antenna'] = "1+2";//MIMO Primary
+          dict_command['antenna'] = "C0A0+C1A0";//MIMO Primary
         }
       }
       dict_command['dataRate'] = "MCS" + dict['Rate'];
@@ -277,9 +279,6 @@ export function choiceToJsonCommand(dict,testType) {
       }else{
         dict_command['tone'] = 'SU';
         dict_command["resourceUnit"] = '';
-      }
-      if (dict['Mode'].includes("ac")){
-        dict_command["mimoScheme"] = 'CDD';
       }
       if(dict['Shoulder'] !== null){dict_command['bandedgeLowOrHigh'] = dict['Shoulder']}
       dict_command["technology"] = "WLAN " + dict["Technology"]+" "+dict_command['mode'];
