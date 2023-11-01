@@ -288,6 +288,10 @@ export function choiceToJsonCommand(dict,testType) {
         dict_command['channel'] = (parseInt(s_channel)-600).toString()
         //dict_command["channel"] = dict_command["channel"].substring(2)
         dict_command['band'] = '6.0'
+      }else if(!isNaN(s_channel) && parseInt(s_channel)<600 && parseInt(s_channel)>35){
+        dict_command['band'] = '5.0'
+      }else{
+        dict_command['band'] = '2.0'
       }
       dict_command['bandwidth'] = parseInt(dict["Bandwidth"].split(" ")[0]);
       return JSON.stringify(dict_command);

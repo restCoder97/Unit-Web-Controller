@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   function isWifiPowerChange(newCommand){
     try{
-      if (newCommand['technology'].includes('BT')){
+      if (newCommand['technology'].includes('BT')|| parseInt(command['power'])<=20){
         return false
       }
       delete newCommand.power;
