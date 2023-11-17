@@ -129,7 +129,7 @@ export function commandToChoice(command){
     choiceDict = bt_par_dict
     for(const k in choiceDict){
       let s = k.toString().toLowerCase()
-      if (s == "ant" && command[s].includes("Diversity")){choiceDict[k] = "Diversity"}
+      if (s == "ant" && command[s].includes("Diversity")){choiceDict[k] = "4"}
       if(s in command){choiceDict[k] = command[s]}
       //if(s.includes("power")){choiceDict["Power-Index"] = command['power']}
     }
