@@ -108,10 +108,10 @@ export function commandToChoice(command){
       if(s in command){choiceDict[k] = command[s]}
       if(k == 'RB-Offset'){choiceDict[k] =command['rb']}
     }
-    if (!command['band'].includes('41')){
-      choiceDict["Sub-Carrier-Spacing"] = '15000'
-    }else{
+    if (command['band'] in fdd_tdd_map && fdd_tdd_map[command['band']]=="TDD"){
       choiceDict["Sub-Carrier-Spacing"] = '30000'
+    }else{
+      choiceDict["Sub-Carrier-Spacing"] = '15000'
     }
     choiceDict["Power-Class"] = "2"
     choiceDict["Technology"] = "FR1"

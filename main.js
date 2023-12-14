@@ -336,7 +336,7 @@ export function databaseSelection(data){
     textArea.scrollTop = textArea.scrollHeight;
   }
   const chocies = commandToChoice(data);
-  textArea.value+= "New Command Found From Databse!\n";
+  textArea.value = "New Command Found From Databse!\n";
   textArea.scrollTop = textArea.scrollHeight;
   for(const k in chocies){
     if (document.querySelector(`#input${k}`).value !== chocies[k]){
