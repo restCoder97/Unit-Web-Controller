@@ -12,7 +12,7 @@ export var wifi_par_dict = {
     "Power-in-Q":"1-100",
     "Shoulder":["Low","High"]
 }
-
+const fdd_tdd_map = {"N2":"FDD","N5":"FDD","N7":"FDD","N12":"FDD","N25":"FDD","N30":"FDD","N66":"FDD","N71":"FDD","N41":"TDD","N38":"TDD","N48":"TDD","N77":"TDD","N78":"TDD","N79":"TDD","N14":"FDD","N70":"FDD"}
 const bandstring = "N1,N2,N3,N5,N7,N8,N12,N20,N25,N28,N30,N38,N40,N41,N48,N66,N71,N77,N78,N79,N77,N78,N79,N77,N78,N79,N77,N78,N79";
 export var fr1_par_dict = {
   "Technology": ["FR1"],
@@ -129,8 +129,8 @@ export function commandToChoice(command){
     choiceDict = bt_par_dict
     for(const k in choiceDict){
       let s = k.toString().toLowerCase()
-      if (s == "ant" && command[s].includes("Diversity")){choiceDict[k] = "4"}
-      else if(s in command){choiceDict[k] = command[s]}
+      if (s == "ant" && command[s].includes("Diversity")){choiceDict[k] = "Diversity"}
+      if(s in command){choiceDict[k] = command[s]}
       //if(s.includes("power")){choiceDict["Power-Index"] = command['power']}
     }
     return choiceDict
@@ -343,7 +343,7 @@ export function choiceToJsonCommand(dict,testType) {
 
     else if(testType == "FR1"){
       var dict_command = fr1_json_template;
-      if(dict['Band'].includes("41")) {
+      if(dict['Band'] in fdd_tdd_map && fdd_tdd_map[dict['Band']]=="TDD") {
         dict_command['subCarrierSpacing'] = '30000'
       }else{
         dict_command['subCarrierSpacing'] = '15000'
