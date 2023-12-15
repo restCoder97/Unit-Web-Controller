@@ -123,17 +123,19 @@ export function commandToChoice(command){
       let s = k.toString().toLowerCase()
       if(s in command){choiceDict[k] = command[s]}
       if(k == 'RB-Offset'){choiceDict[k] = command['rb']}
-    }``
+    }
   }
   else if (tech=="BT"||tech == "BT-5G"||tech == "Bluetooth" ){//BT 
     choiceDict = bt_par_dict
     for(const k in choiceDict){
       let s = k.toString().toLowerCase()
       if(s in command){choiceDict[k] = command[s]}
-      if (s == "ant" && (command[s].toString().toLowerCase().includes("Diversity")|| command[s].toString().toLowerCase().includes("Dedicated"))){
-        choiceDict[k] = "4"
+      if (s == "ant" && (command[s].toString().toLowerCase().includes("diversity"))){
+        choiceDict[k] = "Diversity"
       }
-      
+      if (s == "ant" && (command[s].toString().toLowerCase().includes("dedicated"))){
+        choiceDict[k] = "Dedicated"
+      }
       //if(s.includes("power")){choiceDict["Power-Index"] = command['power']}
     }
     return choiceDict
@@ -314,13 +316,17 @@ export function choiceToJsonCommand(dict,testType) {
       }else{
         dict_command['technology'] = dict_command["technology"]+"_BT"
       }
-      if(dict['Ant']=='3'){
+      if(dict['Ant']=='3' || dict['Ant'] == 'MIMO'){
         dict_command['sisoOrMimo'] = "MIMO";
         dict_command['antenna'] = '1+2';
       }else{
         dict_command['sisoOrMimo'] = "SISO";
+        if (dict['Ant'].toString().toLowerCase().includes('diversity')||dict['Ant'].toString().toLowerCase().includes('dedicated')){
+          dict['Ant'] = '4';
+        }
         dict_command['antenna'] = dict['Ant'];
       }
+
       dict_command['frequency'] = dict["Frequency"]
       dict_command['power'] = "" + (dict['Power_Index']);
       dict_command['modulation'] = dict['Modulation'];
