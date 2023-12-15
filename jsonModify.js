@@ -123,14 +123,17 @@ export function commandToChoice(command){
       let s = k.toString().toLowerCase()
       if(s in command){choiceDict[k] = command[s]}
       if(k == 'RB-Offset'){choiceDict[k] = command['rb']}
-    }
+    }``
   }
   else if (tech=="BT"||tech == "BT-5G"||tech == "Bluetooth" ){//BT 
     choiceDict = bt_par_dict
     for(const k in choiceDict){
       let s = k.toString().toLowerCase()
-      if (s == "ant" && command[s].includes("Diversity")){choiceDict[k] = "Diversity"}
       if(s in command){choiceDict[k] = command[s]}
+      if (s == "ant" && (command[s].toString().toLowerCase().includes("Diversity")|| command[s].toString().toLowerCase().includes("Dedicated"))){
+        choiceDict[k] = "4"
+      }
+      
       //if(s.includes("power")){choiceDict["Power-Index"] = command['power']}
     }
     return choiceDict
