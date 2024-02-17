@@ -63,6 +63,9 @@ export function commandToChoice(command){
         choiceDict["RU-Length"] = "52T";
         break;
       case "1500":
+        choiceDict["RU-Length"] = "106T";
+        break;
+      case "1500":
         choiceDict["RU-Length"] = "242T";
         break;
       case "3000":
