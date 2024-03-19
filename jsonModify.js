@@ -55,6 +55,7 @@ export function commandToChoice(command){
     if (command["Shoulder"] !== undefined){
       choiceDict["Shoulder"] = command["Shoulder"]
     }
+
     switch(command["Length"]) {
       case "375":
         choiceDict["RU-Length"] = "26T";
@@ -63,13 +64,18 @@ export function commandToChoice(command){
         choiceDict["RU-Length"] = "52T";
         break;
       case "1500":
-        choiceDict["RU-Length"] = "106T";
-        break;
-      case "1500":
-        choiceDict["RU-Length"] = "242T";
+        if (parseInt(command['Channel'])>600){
+          choiceDict["RU-Length"] = "106T";
+        }else{
+          choiceDict["RU-Length"] = "242T"
+        }
         break;
       case "3000":
-        choiceDict["RU-Length"] = "484T";
+        if (parseInt(command['Channel'])>600){
+          choiceDict["RU-Length"] = "242T";
+        }else{
+          choiceDict["RU-Length"] = "484T"
+        }
         break;
       case "6000":
         choiceDict["RU-Length"] = "968T";
