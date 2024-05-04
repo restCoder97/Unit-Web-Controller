@@ -1,238 +1,66 @@
 <!DOCTYPE html>
-<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
-<script type="module" src="./jsonModify.js"></script>
-<script type="module" src="./adjust.js"></script>
-<script type="module" src="./main.js"></script>
-<script type="module" src="./network.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
-
-
 <html>
 <head>
 	<title>EMC Remote Control</title>
-	<style>
-		/* Styling for title area */
-		.title {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			background-color: #F0F8FF; /* baby blue color */
-			padding: 10px;
-		}
-
-		.title img {
-			height: 70px;
-			width: 189px;
-			margin-right: 10px;
-		}
-
-		.title h1 {
-			margin: 0;
-			color: #000080; /* baby blue color */
-		}
-
-		/* Styling for subtitle area */
-		.subtitle {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			background-color: #FFFFFF;
-			padding: 10px;
-            border: 0.5px solid gray;
-		}
-
-		.subtitle button {
-			margin: 0 10px;
-			padding: 5px 10px;
-			border-radius: 5px;
-			border: 1px solid #000080; /* baby blue color */
-			background-color: #F0F8FF; /* baby blue color */
-			color: #000080; /* baby blue color */
-			font-size: 20px;
-			cursor: pointer;
-            flex-grow: 1;
-		}
-
-		.subtitle button:hover {
-			background-color: #000080; /* baby blue color */
-			color: #FFFFFF;
-		}
-
-		/* Styling for main page */
-		.group-area {
-			display: flex;
-			flex-direction: row;
-			flex-wrap: wrap;
-			justify-content: center;
-			padding: 10px;
-		}
-
-		.group {
-			display: flex;
-			flex-direction: column;
-			margin-right: 20px;
-			margin-bottom: 20px;
-			flex-basis: 15%;
-		}
-
-		.group label {
-			margin-bottom: 5px;
-			font-weight: bold;
-			color: #000080;
-			font-size: 20px;
-			transition: 1s;
-		}
-
-		.group datalist{
-			font-weight: bold;
-			color: #000000;
-			font-size: 18px;
-		}
-
-		.group input {
-			padding: 5px;
-			border-radius: 5px;
-			border: 1px solid #ccc;
-			font-weight:bold;
-			font-size: 18px;
-			cursor: pointer;
-		}
-
-		.subtitle button.active {
-			background-color: #00BFFF;
-			color: white;
-		}
-		
-		.send-area button{
-			background-color: #F0F8FF; /* baby blue color */
-			color: #000080; /* baby blue color */
-			font-size: 20px;
-			cursor: pointer;
-			margin: 20px;
-		}
-
-		.send-area{
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
-
-		.dialog-area{
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			margin-top: 30px;
-		}
-
-        .status {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: #FFFFFF; /* baby blue color */
-            padding: 10px;
-            border: 0.5px solid #000080; /* baby blue color */
-        }
-
-        .status-text {
-            color: #000000; /* black color */
-            font-size: 16px;
-            font-weight: bold;
-        }
-		#status_span{
-			color: #000000; /* black color */
-            font-size: 18px;
-            font-weight: bold;
-		}
-		#dialog{
-			color: #000000; /* black color */
-            font-size: 12px;
-		}
-
-        .connect-form {
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        .connect-form label {
-			margin-left: 10px;
-            margin-bottom: 5px;
-        }
-
-        .connect-form input[type="text"] {
-            margin-right: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-			width: 200px;
-            border: 1px solid #000080; /* baby blue color */
-            font-size: 16px;
-        }
-		.connect-form select[type="text"] {
-            margin-right: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-			width: 150px;
-            border: 1px solid #000080; /* baby blue color */
-            font-size: 16px;
-        }
-
-        .connect-form button {
-            padding: 5px 20px;
-            border-radius: 5px;
-            border: 1px solid #000080; /* baby blue color */
-            background-color: #F0F8FF; /* baby blue color */
-            color: #000080; /* baby blue color */
-            font-size: 16px;
-            cursor: pointer;
-			margin-top: 10px;
-        }
-
-        .connect-form button:hover {
-            background-color: #000080; /* baby blue color */
-            color: #FFFFFF;
-        }
-
-	</style>
+	<link rel="stylesheet" href="style.css">
+	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
+	<script type="module" src="./jsonModify.js"></script>
+	<script type="module" src="./adjust.js"></script>
+	<script type="module" src="./main.js"></script>
+	<script type="module" src="./network.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
 </head>
 <body>
-	<!-- Title area -->
 	<div class="title">
 		<img src="Media/element_logo.png" alt="element logo">
 		<h1>EMC Remote Control</h1>
 	</div>
 
-	<!-- Subtitle area -->
 	<div class="subtitle">
 		<button>WIFI</button>
 		<button>BT</button>
 		<button>LTE</button>
-        <button>FR1</button>
-    </div>
+		<button>FR1</button>
+	</div>
 
-    <!-- Status area -->
-    <div class="status">
-		<!---->
-        <span class="no-connection" id = 'status_span'>No Connection</span>
-        <div class="connect-form">
-            <div>  
-                <label for="ip address">IP Address:</label>
-                <input type="text" id="ip-address" name="ip-address" value="127.0.0.1">
-                <label for="port">Port:</label>
-                <input type="text" id="port" name="port" value="1314">
-            </div>
+	<div class="status">
+		<span class="no-connection" id='status_span'>No Connection</span>
+		<div class="connect-form">
+			<div>  
+				<label for="ip address">IP Address:</label>
+				<input type="text" id="ip-address" name="ip-address" value="127.0.0.1">
+				<label for="port">Port:</label>
+				<input type="text" id="port" name="port" value="1314">
+			</div>
 			<div>
 				<label for="test_type">Test Type:</label>
 				<input type="text" id="test_type" list="tmp_datalist" value="cc220x_non_sig"/>
-				<datalist id = 'tmp_datalist'></datalist>
+				<datalist id='tmp_datalist'></datalist>
 			</div>
 			<div>
 				<label for="my-dropdown">Chamber:</label>
 				<select id="chamber-dropdown" name="my-dropdown">
-				<option value="AM_3m01">AM_3m01</option><option value="AM_3m2">AM_3m2</option><option value="AM_3m3">AM_3m3</option><option value="AM_3m4">AM_3m4<option value="AM_3m5">AM_3m5</option>
-				<option value="AM_3m6">AM_3m6</option><option value="AM_3m7">AM_3m7</option><option value="AM_3m8">AM_3m8</option><option value="AM_3m9">AM_3m9</option><option value="AM_3m10">AM_3m10</option>
-				<option value="AM_3m11">AM_3m11</option><option value="AM_3m12">AM_3m12</option><option value="AM_FAC">AM_FAC</option><option value="AM_mmWave">AM_mmWave</option>
-				<option value="AM_CS1">AM_CS1</option><option value="AM_CS2">AM_CS2</option><option value="AM_CS3">AM_CS3</option><option value="AM_CS4">AM_CS4</option><option value="AM_CS5">AM_CS5</option><option value="AM_CS6">AM_CS6</option>
+					<option value="AM_3m01">AM_3m01</option>
+					<option value="AM_3m2">AM_3m2</option>
+					<option value="AM_3m3">AM_3m3</option>
+					<option value="AM_3m4">AM_3m4</option>
+					<option value="AM_3m5">AM_3m5</option>
+					<option value="AM_3m6">AM_3m6</option>
+					<option value="AM_3m7">AM_3m7</option>
+					<option value="AM_3m8">AM_3m8</option>
+					<option value="AM_3m9">AM_3m9</option>
+					<option value="AM_3m10">AM_3m10</option>
+					<option value="AM_3m11">AM_3m11</option>
+					<option value="AM_3m12">AM_3m12</option>
+					<option value="AM_FAC">AM_FAC</option>
+					<option value="AM_mmWave">AM_mmWave</option>
+					<option value="AM_CS1">AM_CS1</option>
+					<option value="AM_CS2">AM_CS2</option>
+					<option value="AM_CS3">AM_CS3</option>
+					<option value="AM_CS4">AM_CS4</option>
+					<option value="AM_CS5">AM_CS5</option>
+					<option value="AM_CS6">AM_CS6</option>
 				</select>
 				<label for="comport number">Comport:</label>
 				<input type="text" id="comport" name="comport" value="/dev/cu.usbmodem1302">
@@ -240,54 +68,44 @@
 			<div>	
 				<label for="Firmware">Firmware:</label>
 				<select id="firmware-dropdown" name="f-dropdown">
-				<option value=""></option>
-				<option value="mfgtest.bin bcm94388Plum2USIMM_BDA.nvm -p">mfgtest.bin bcm94388Plum2USIMM_BDA.nvm -p</option>
-				<option value="mfgtest.bin bcm94388Plum2STATSMM_BDA.nvm -p">mfgtest.bin bcm94388Plum2STATSMM_BDA.nvm -p</option>
-				<option value="BCM4388C0_21.1.358.3761_PCIE_Plum2A_CLPC_MFG_USI_20230811.bin -p">BCM4388C0_21.1.358.3761_PCIE_Plum2A_CLPC_MFG_USI_20230811.bin -p</option>
-				<option value="BCM4388C0_21.1.358.3760_PCIE_Plum2A_CLPC_MFG_STATS_20230811.bin -p">BCM4388C0_21.1.358.3760_PCIE_Plum2A_CLPC_MFG_STATS_20230811.bin -p</option>
-				<option value="mfgtest.bin bcm94388Persimmon2USIMM_BDB.nvm -p">mfgtest.bin bcm94388Persimmon2USIMM_BDB.nvm -p</option>
-				<option value="BCM4388C0_21.1.358.3767_PCIE_Persimmon2B_CLPC_MFG_USI_20230811.bin -p ">BCM4388C0_21.1.358.3767_PCIE_Persimmon2B_CLPC_MFG_USI_20230811.bin -p </option>
-				<option value="mfgtest.bin bcm94388Persimmon2USIMM_BDA.nvm -p">mfgtest.bin bcm94388Persimmon2USIMM_BDA.nvm -p</option>
-				<option value="mfgtest.bin bcm94388Persimmon2STATSMM_BDA.nvm -p">mfgtest.bin bcm94388Persimmon2STATSMM_BDA.nvm -p</option>
-				<option value="BCM4388C0_21.1.358.3765_PCIE_Persimmon2A_CLPC_MFG_USI_20230811.bin -p">BCM4388C0_21.1.358.3765_PCIE_Persimmon2A_CLPC_MFG_USI_20230811.bin -p</option>
-				<option value="BCM4388C0_21.1.358.3764_PCIE_Persimmon2A_CLPC_MFG_STATS_20230811.bin -p">BCM4388C0_21.1.358.3764_PCIE_Persimmon2A_CLPC_MFG_STATS_20230811.bin -p</option>
-				<option value="mfgtest.bin bcm94388Plum2USIMM_BDB.nvm -p">mfgtest.bin bcm94388Plum2USIMM_BDB.nvm -p</option>
-				<option value="mfgtest.bin bcm94388Plum2STATSMM_BDB.nvm -p">mfgtest.bin bcm94388Plum2STATSMM_BDB.nvm -p</option>
-				<option value="BCM4388C0_21.1.358.3763_PCIE_Plum2B_CLPC_MFG_USI_20230811.bin -p">BCM4388C0_21.1.358.3763_PCIE_Plum2B_CLPC_MFG_USI_20230811.bin -p</option>
-				<option value="BCM4388C0_21.1.358.3762_PCIE_Plum2B_CLPC_MFG_STATS_20230811.bin -p">BCM4388C0_21.1.358.3762_PCIE_Plum2B_CLPC_MFG_STATS_20230811.bin -p</option>
-				<option value="wifi --on --load mfgtest.bin bcm94388Persimmon2STATSMM_BDB.nvm -p">wifi --on --load mfgtest.bin bcm94388Persimmon2STATSMM_BDB.nvm -p</option>
-				<option value="bluetooth --on --load BCM4388C0_21.1.358.3766_PCIE_Persimmon2B_CLPC_MFG_STATS_20230811.bin -p">bluetooth --on --load BCM4388C0_21.1.358.3766_PCIE_Persimmon2B_CLPC_MFG_STATS_20230811.bin -p</option>
+					<option value=""></option>
+					<option value="mfgtest.bin bcm94388Plum2USIMM_BDA.nvm -p">mfgtest.bin bcm94388Plum2USIMM_BDA.nvm -p</option>
+					<option value="mfgtest.bin bcm94388Plum2STATSMM_BDA.nvm -p">mfgtest.bin bcm94388Plum2STATSMM_BDA.nvm -p</option>
+					<option value="BCM4388C0_21.1.358.3761_PCIE_Plum2A_CLPC_MFG_USI_20230811.bin -p">BCM4388C0_21.1.358.3761_PCIE_Plum2A_CLPC_MFG_USI_20230811.bin -p</option>
+					<option value="BCM4388C0_21.1.358.3760_PCIE_Plum2A_CLPC_MFG_STATS_20230811.bin -p">BCM4388C0_21.1.358.3760_PCIE_Plum2A_CLPC_MFG_STATS_20230811.bin -p</option>
+					<option value="mfgtest.bin bcm94388Persimmon2USIMM_BDB.nvm -p">mfgtest.bin bcm94388Persimmon2USIMM_BDB.nvm -p</option>
+					<option value="BCM4388C0_21.1.358.3767_PCIE_Persimmon2B_CLPC_MFG_USI_20230811.bin -p ">BCM4388C0_21.1.358.3767_PCIE_Persimmon2B_CLPC_MFG_USI_20230811.bin -p </option>
+					<option value="mfgtest.bin bcm94388Persimmon2USIMM_BDA.nvm -p">mfgtest.bin bcm94388Persimmon2USIMM_BDA.nvm -p</option>
+					<option value="mfgtest.bin bcm94388Persimmon2STATSMM_BDA.nvm -p">mfgtest.bin bcm94388Persimmon2STATSMM_BDA.nvm -p</option>
+					<option value="BCM4388C0_21.1.358.3765_PCIE_Persimmon2A_CLPC_MFG_USI_20230811.bin -p">BCM4388C0_21.1.358.3765_PCIE_Persimmon2A_CLPC_MFG_USI_20230811.bin -p</option>
+					<option value="BCM4388C0_21.1.358.3764_PCIE_Persimmon2A_CLPC_MFG_STATS_20230811.bin -p">BCM4388C0_21.1.358.3764_PCIE_Persimmon2A_CLPC_MFG_STATS_20230811.bin -p</option>
+					<option value="mfgtest.bin bcm94388Plum2USIMM_BDB.nvm -p">mfgtest.bin bcm94388Plum2USIMM_BDB.nvm -p</option>
+					<option value="mfgtest.bin bcm94388Plum2STATSMM_BDB.nvm -p">mfgtest.bin bcm94388Plum2STATSMM_BDB.nvm -p</option>
+					<option value="BCM4388C0_21.1.358.3763_PCIE_Plum2B_CLPC_MFG_USI_20230811.bin -p">BCM4388C0_21.1.358.3763_PCIE_Plum2B_CLPC_MFG_USI_20230811.bin -p</option>
+					<option value="BCM4388C0_21.1.358.3762_PCIE_Plum2B_CLPC_MFG_STATS_20230811.bin -p">BCM4388C0_21.1.358.3762_PCIE_Plum2B_CLPC_MFG_STATS_20230811.bin -p</option>
+					<option value="wifi --on --load mfgtest.bin bcm94388Persimmon2STATSMM_BDB.nvm -p">wifi --on --load mfgtest.bin bcm94388Persimmon2STATSMM_BDB.nvm -p</option>
+					<option value="bluetooth --on --load BCM4388C0_21.1.358.3766_PCIE_Persimmon2B_CLPC_MFG_STATS_20230811.bin -p">bluetooth --on --load BCM4388C0_21.1.358.3766_PCIE_Persimmon2B_CLPC_MFG_STATS_20230811.bin -p</option>
 				</select>
 			</div>
 			<div>
-            	<button id="connect-button">Connect</button>
+				<button id="connect-button">Connect</button>
 				<button id="recall-button">Recall</button> 
 			</div>
-      </div>
-    </div>
-
-    
-
-	<!-- Main page -->
-	
-	<div class="main-page" id = "main-page">
-		<div class="group-area" id="group-area">
-
 		</div>
+	</div>
 
+	<div class="main-page" id="main-page">
+		<div class="group-area" id="group-area"></div>
 		<div class="send-area">
 			<div>	
 				<button id="send-button">Send</button>
 				<button id="listen-button">Listen</button>
 			</div>
 			<button id="remote-button">Remote Control</button>
-			
 		</div>
 		<div class="dialog-area">
-			<textarea id="dialog"  rows="20" cols="70">
-				Welcome to web controller!
-			</textarea>
+			<textarea id="dialog" rows="20" cols="70">Welcome to web controller!</textarea>
 		</div>
-    </div>
-
-	
+	</div>
+</body>
+</html>
