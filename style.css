@@ -67,11 +67,11 @@
 	transition: 1s;
 }
 
-.group datalist {
+/* .group datalist {
 	font-weight: bold;
 	color: #000000;
 	font-size: 18px;
-}
+} */
 
 .group input {
 	padding: 5px;
@@ -126,52 +126,13 @@
 	font-weight: bold;
 }
 
-/* #dialog {
-	color: #000000;
-	font-size: 12px;
-} */
-
-.connect-form {
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-}
-
-.connect-form label {
-	margin-left: 10px;
-	margin-bottom: 5px;
-}
-
-.connect-form input[type="text"] {
-	margin-right: 10px;
-	margin-bottom: 10px;
-	border-radius: 5px;
-	width: 200px;
-	border: 1px solid #000080;
-	font-size: 16px;
-}
-
-.connect-form select[type="text"] {
-	margin-right: 10px;
-	margin-bottom: 10px;
-	border-radius: 5px;
-	width: 150px;
-	border: 1px solid #000080;
-	font-size: 16px;
+#dialog {
+	font-size: 15px;
 }
 
 .connect-form button {
-	padding: 5px 20px;
-	border-radius: 5px;
-	border: 1px solid #000080;
-	background-color: #F0F8FF;
-	color: #000080;
-	font-size: 16px;
-	cursor: pointer;
-	margin-top: 10px;
-}
-
-.connect-form button:hover {
-	background-color: #000080;
-	color: #FFFFFF;
+	margin-right: 65px;
+	--bs-btn-padding-y: .25rem; 
+	--bs-btn-padding-x: .5rem; 
+	--bs-btn-font-size: .85rem;
 }
