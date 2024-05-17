@@ -3,13 +3,13 @@ export const DUT_TYPE_MAPPING_EXT = ["ww1703_row", "ww1703_na", "aa1704", "cc200
 export var wifi_par_dict = {
     "Technology":["U-NII","DTS"],
     "Mode":["11b","11n","11ax-(RU)","11ax-(SU)","11ac","11g"],
-    "Ant": ["1","2","3"],
+    "Ant": ["C0A0","C1A0","C0A0+C1A0","C0A1","C1A1","C0A0+C1A1","C0A1+C1A0"],
     "Bandwidth":["20 MHz","40 MHz","80 Mhz","160 MHz"],
     "Channel": "1-165",
-    "Rate": "0-16",
+    "Rate": "0-64",
     "RU-Index":["RU0","RU4", "RU8","RU9","RU17","RU18","RU36","RU37","RU38","RU39","RU40","RU41","RU44","RU45","RU52","RU53","RU54","RU55","RU56","RU61","RU62","RU63","RU64","RU65","RU66","RU67","RU68"],
     "RU-Length": ["26T","52T","106T","242T","484T","968T","996T"],
-    "Power-in-Q":"1-100",
+    "Power-in-Q": Array.from({length: 201}, (_, i) => i - 100),
     "Shoulder":["Low","High"]
 }
 const fdd_tdd_map = {"N2":"FDD","N5":"FDD","N7":"FDD","N12":"FDD","N25":"FDD","N30":"FDD","N66":"FDD","N71":"FDD","N41":"TDD","N38":"TDD","N48":"TDD","N77":"TDD","N78":"TDD","N79":"TDD","N14":"FDD","N70":"FDD"}
@@ -31,11 +31,11 @@ export var fr1_par_dict = {
 
 export var bt_par_dict = {
   "Technology":["Bluetooth_HDR","Bluetooth_BT","Bluetooth_BLE","BT5G_BLE","BT5G_HDR","BT5G_BT"],
-  "Band":["UNII-1","UNII-2","UNII-3","UNII-4","UNII-5A","UNII-5B","UNII-5C","UNII-5D"],
+  "Band":["UNII-1","UNII-2","UNII-3","UNII-5A","UNII-5B","UNII-5C","UNII-5D"],
   "Mode":["HDR4","HDR8","HDRp4","HDRp8","BDR","EDR","BLE"],
   "Ant": ["1","2","3"],
-  "Frequency": ["2402","2404","2441","2478","2480","2476","5150","6051","5162","5245","5733","5844","5953","6420"],
-  "Modulation":["GFSK","QPSK","8PSK"],
+  "Frequency": [],
+  "Modulation":["QPSK","8PSK"],
   "Power_Mode":["EPA","IPA"],
   "Data_Rate":["1Mbps","2Mbps"],
   "Power_Index":"1-30"

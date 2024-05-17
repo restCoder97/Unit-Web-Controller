@@ -58,6 +58,8 @@ document.addEventListener('DOMContentLoaded', function() {
   var comport_input = document.getElementById('comport');
   textArea = document.getElementById("dialog");
   var socket = null
+  var reset_button = document.querySelector('#reset-button');
+  reset_button.addEventListener('click', resetInputs);
   setTestType();
   
   //coonecting socket
@@ -284,6 +286,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const label = document.createElement('label')
         label.id = 'label'+k;
         input.id = 'input'+k;
+        input.setAttribute('data-id', k);
         console.log(input.id);
         label.innerText = k
         datalist.id = k
@@ -323,8 +326,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
   });
   });
-});
 
+  function resetInputs() {
+    var inputs = document.querySelectorAll('#group-area input');
+    inputs.forEach(input => {
+      input.value = '';
+      input.disabled = false;
+    });
+  }
+
+});
 
 export function databaseSelection(data){
   if(remoteControl){
