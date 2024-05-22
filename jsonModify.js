@@ -2,10 +2,10 @@ export const DUT_TYPE_MAPPING_EXT = ["ww1703_row", "ww1703_na", "aa1704", "cc200
 
 export var wifi_par_dict = {
     "Technology":["U-NII","DTS"],
-    "Mode":["11b","11n","11ax-(RU)","11ax-(SU)","11ac","11g"],
-    "Ant": ["C0A0","C1A0","C0A0+C1A0","C0A1","C1A1","C0A0+C1A1","C0A1+C1A0"],
-    "Bandwidth":["20 MHz","40 MHz","80 Mhz","160 MHz"],
-    "Channel": "1-165",
+    "Mode":[],
+    "Ant": ["C0A0","C1A0","C0A0+C1A0","C0A1","C1A1","C0A1+C1A0", "C0A0+C1A1"],
+    "Bandwidth":["20 MHz","40 MHz","80 MHz","160 MHz"],
+    "Channel": [],
     "Rate": "0-64",
     "RU-Index":["RU0","RU4", "RU8","RU9","RU17","RU18","RU36","RU37","RU38","RU39","RU40","RU41","RU44","RU45","RU52","RU53","RU54","RU55","RU56","RU61","RU62","RU63","RU64","RU65","RU66","RU67","RU68"],
     "RU-Length": ["26T","52T","106T","242T","484T","968T","996T"],

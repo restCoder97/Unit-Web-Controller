@@ -1,10 +1,132 @@
 export var FR1_channel_list = [];
 var filteredChannelList = [];
+
+const twentyMhzChannels = [
+  36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132,
+  136, 140, 149, 153, 157, 161, 165, 601, 605, 609, 613, 617, 621, 625, 629,
+  633, 637, 641, 645, 649, 653, 657, 661, 665, 669, 673, 677, 681, 685, 689,
+  693, 697, 701, 705, 709, 713, 717, 721, 725, 729, 733, 737, 741, 745, 749,
+  753, 757, 761, 765, 769, 773, 777, 781, 785, 789, 793, 797, 801, 805, 809,
+  813, 817, 821, 825, 829, 833,
+];
+
+const fortyMhzChannels = [
+  38, 46, 54, 62, 102, 110, 118, 126, 134, 142, 151, 159, 603, 611, 619, 627,
+  635, 643, 651, 659, 667, 675, 683, 691, 699, 707, 715, 723, 731, 739, 747,
+  755, 763, 771, 779, 787, 795, 803, 811, 819, 827,
+];
+
+const eightyMhzChannels = [
+  42, 58, 106, 122, 138, 155, 607, 623, 639, 655, 671, 687, 703, 719, 735, 751,
+  767, 783, 799, 815,
+];
+
+const hundredSixtyMhzChannels = [50, 114, 615, 647, 679, 711, 743, 775, 807];
 export function adjust_selection(test, id, value) {
   var groups = document.getElementById("group-area").children;
+  const disableInput = (input) => {
+    if (input) {
+      input.disabled = true;
+    }
+  };
+
+  const enableInput = (input) => {
+    if (input) {
+      input.disabled = false;
+    }
+  };
+
   if (test === "WIFI") {
-    if (id.concludes("Technology")) {
-      modeDataList = groups.children;
+    const modeInput = document.getElementById("inputMode");
+    const modeDataList = document.getElementById("Mode");
+    const bandwidthInput = document.getElementById("inputBandwidth");
+    const channelInput = document.getElementById("inputChannel");
+    const channelDataList = document.getElementById("Channel");
+    const ruIndexInput = document.getElementById("inputRU-Index");
+    const ruLengthInput = document.getElementById("inputRU-Length");
+
+    // Default disable ru index and ru length input
+    disableInput(ruIndexInput);
+    disableInput(ruLengthInput);
+
+    if (id === "Technology") {
+      modeDataList.innerHTML = "";
+      const modes =
+        value === "U-NII"
+          ? ["11a", "11ac", "11n", "11ax-(SU)", "11ax-(RU)"]
+          : ["11b", "11g", "11n", "11ax-(SU)", "11ax-(RU)"];
+
+      modes.forEach((mode) => {
+        const option = document.createElement("option");
+        option.value = mode;
+        modeDataList.appendChild(option);
+      });
+
+      if (value === "DTS") {
+        bandwidthInput.value = "20 MHz";
+        disableInput(bandwidthInput);
+        populateChannels(
+          channelDataList,
+          Array.from({ length: 13 }, (_, i) => i + 1)
+        );
+        channelInput.value = "";
+      } else if (value === "U-NII") {
+        enableInput(bandwidthInput);
+        bandwidthInput.value = "";
+
+        const channelMap = {
+          "20 MHz": twentyMhzChannels,
+          "40 MHz": fortyMhzChannels,
+          "80 MHz": eightyMhzChannels,
+          "160 MHz": hundredSixtyMhzChannels,
+        };
+
+        // Add an event listener to the bandwidthInput
+        bandwidthInput.addEventListener("input", function () {
+          const channels = channelMap[this.value];
+          if (channels) {
+            populateChannels(channelDataList, channels);
+            channelInput.value = "";
+          } else {
+            channelDataList.innerHTML = "";
+            channelInput.value = "";
+          }
+        });
+
+        // Add an event listener to the channelInput
+        channelInput.addEventListener("input", function () {
+          const enteredChannel = parseInt(this.value);
+
+          // Find the matching bandwidth based on the entered channel
+          const matchingBandwidth = Object.keys(channelMap).find((bandwidth) =>
+            channelMap[bandwidth].includes(enteredChannel)
+          );
+
+          if (matchingBandwidth) {
+            bandwidthInput.value = matchingBandwidth;
+            populateChannels(channelDataList, channelMap[matchingBandwidth]);
+          }
+        });
+      }
+      modeInput.value = "";
+    }
+
+    function populateChannels(dataList, channels) {
+      dataList.innerHTML = "";
+
+      if (Array.isArray(channels)) {
+        channels.forEach((channel) => {
+          const option = document.createElement("option");
+          option.value = channel.toString();
+          dataList.appendChild(option);
+        });
+      } else {
+        for (let i = channels.start; i <= channels.end; i++) {
+          const option = document.createElement("option");
+          option.value = i.toString();
+          dataList.appendChild(option);
+        }
+      }
     }
   } else if (test === "FR1") {
     if (
@@ -122,18 +244,6 @@ export function adjust_selection(test, id, value) {
           inputs.Band.disabled = false;
         }
       }
-
-      const disableInput = (input) => {
-        if (input) {
-          input.disabled = true;
-        }
-      };
-
-      const enableInput = (input) => {
-        if (input) {
-          input.disabled = false;
-        }
-      };
 
       if (modeValue === "BDR") {
         modulationInput.value = "GFSK";
