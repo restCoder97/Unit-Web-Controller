@@ -7,8 +7,8 @@ export var wifi_par_dict = {
     "Bandwidth":["20 MHz","40 MHz","80 MHz","160 MHz"],
     "Channel": [],
     "Rate": "0-64",
-    "RU-Index":["RU0","RU4", "RU8","RU9","RU17","RU18","RU36","RU37","RU38","RU39","RU40","RU41","RU44","RU45","RU52","RU53","RU54","RU55","RU56","RU61","RU62","RU63","RU64","RU65","RU66","RU67","RU68"],
-    "RU-Length": ["26T","52T","106T","242T","484T","968T","996T"],
+    "RU-Index":[],
+    "RU-Length": [],
     "Power-in-Q": Array.from({length: 201}, (_, i) => i - 100),
     "Shoulder":["Low","High"]
 }

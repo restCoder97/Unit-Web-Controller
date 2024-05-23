@@ -1,27 +1,26 @@
 export var FR1_channel_list = [];
 var filteredChannelList = [];
+const channels = {
+  twentyMhz: [
+    36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132,
+    136, 140, 149, 153, 157, 161, 165, 601, 605, 609, 613, 617, 621, 625, 629,
+    633, 637, 641, 645, 649, 653, 657, 661, 665, 669, 673, 677, 681, 685, 689,
+    693, 697, 701, 705, 709, 713, 717, 721, 725, 729, 733, 737, 741, 745, 749,
+    753, 757, 761, 765, 769, 773, 777, 781, 785, 789, 793, 797, 801, 805, 809,
+    813, 817, 821, 825, 829, 833,
+  ],
+  fortyMhz: [
+    38, 46, 54, 62, 102, 110, 118, 126, 134, 142, 151, 159, 603, 611, 619, 627,
+    635, 643, 651, 659, 667, 675, 683, 691, 699, 707, 715, 723, 731, 739, 747,
+    755, 763, 771, 779, 787, 795, 803, 811, 819, 827,
+  ],
+  eightyMhz: [
+    42, 58, 106, 122, 138, 155, 607, 623, 639, 655, 671, 687, 703, 719, 735,
+    751, 767, 783, 799, 815,
+  ],
+  hundredSixtyMhz: [50, 114, 615, 647, 679, 711, 743, 775, 807],
+};
 
-const twentyMhzChannels = [
-  36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132,
-  136, 140, 149, 153, 157, 161, 165, 601, 605, 609, 613, 617, 621, 625, 629,
-  633, 637, 641, 645, 649, 653, 657, 661, 665, 669, 673, 677, 681, 685, 689,
-  693, 697, 701, 705, 709, 713, 717, 721, 725, 729, 733, 737, 741, 745, 749,
-  753, 757, 761, 765, 769, 773, 777, 781, 785, 789, 793, 797, 801, 805, 809,
-  813, 817, 821, 825, 829, 833,
-];
-
-const fortyMhzChannels = [
-  38, 46, 54, 62, 102, 110, 118, 126, 134, 142, 151, 159, 603, 611, 619, 627,
-  635, 643, 651, 659, 667, 675, 683, 691, 699, 707, 715, 723, 731, 739, 747,
-  755, 763, 771, 779, 787, 795, 803, 811, 819, 827,
-];
-
-const eightyMhzChannels = [
-  42, 58, 106, 122, 138, 155, 607, 623, 639, 655, 671, 687, 703, 719, 735, 751,
-  767, 783, 799, 815,
-];
-
-const hundredSixtyMhzChannels = [50, 114, 615, 647, 679, 711, 743, 775, 807];
 export function adjust_selection(test, id, value) {
   var groups = document.getElementById("group-area").children;
   const disableInput = (input) => {
@@ -44,76 +43,143 @@ export function adjust_selection(test, id, value) {
     const channelDataList = document.getElementById("Channel");
     const ruIndexInput = document.getElementById("inputRU-Index");
     const ruLengthInput = document.getElementById("inputRU-Length");
-
-    // Default disable ru index and ru length input
-    disableInput(ruIndexInput);
-    disableInput(ruLengthInput);
-
+  
+    const channelMap = {
+      "20 MHz": channels.twentyMhz,
+      "40 MHz": channels.fortyMhz,
+      "80 MHz": channels.eightyMhz,
+      "160 MHz": channels.hundredSixtyMhz,
+    };
+  
+    const ruLengthOptions = {
+      "20 MHz": ["26T", "52T", "106T", "242T"],
+      "40 MHz": ["26T", "52T", "106T", "242T", "484T"],
+      "80 MHz": ["26T", "52T", "106T", "242T", "484T", "968T", "996T"],
+      "160 MHz": ["26T", "52T", "106T", "242T", "484T", "968T", "996T"],
+    };
+  
+    const ruIndexOptions = {
+      "26T": ["RU0", "RU4", "RU8", "RU17", "RU18", "RU36"],
+      "52T": ["RU37", "RU38", "RU40", "RU44", "RU52"],
+      "106T": ["RU53", "RU54", "RU56", "RU60"],
+      "242T": ["RU61", "RU62", "RU64"],
+      "484T": ["RU65", "RU66"],
+      "968T": ["RU67", "RU68"],
+      "996T": ["RU67", "RU68"],
+    };
+  
+    const updateRuOptions = () => {
+      const bandwidthValue = bandwidthInput.value;
+      const availableRuLengths = ruLengthOptions[bandwidthValue] || [];
+      populateDataList(document.getElementById("RU-Length"), availableRuLengths);
+  
+      const ruLengthValue = ruLengthInput.value;
+      const availableRuIndexes = ruIndexOptions[ruLengthValue] || [];
+      populateDataList(document.getElementById("RU-Index"), availableRuIndexes);
+    };
+  
+    const updateChannels = () => {
+      const channels = channelMap[bandwidthInput.value];
+      if (channels) {
+        populateChannels(channelDataList, channels);
+        channelInput.value = "";
+      } else {
+        channelDataList.innerHTML = "";
+        channelInput.value = "";
+      }
+    };
+  
+    const handleModeChange = () => {
+      if (modeInput.value === "11ax-(RU)") {
+        enableInput(ruIndexInput);
+        enableInput(ruLengthInput);
+        updateRuOptions();
+      } else {
+        disableInput(ruIndexInput);
+        disableInput(ruLengthInput);
+        ruIndexInput.value = "";
+        ruLengthInput.value = "";
+        document.getElementById("RU-Index").innerHTML = "";
+        document.getElementById("RU-Length").innerHTML = "";
+      }
+    };
+  
+    const handleBandwidthChange = () => {
+      updateChannels();
+      updateRuOptions();
+    };
+  
+    const handleChannelChange = () => {
+      const enteredChannel = parseInt(channelInput.value);
+  
+      if (channelInput.value === "") {
+        bandwidthInput.value = "";
+        ruLengthInput.value = "";
+        ruIndexInput.value = "";
+        return;
+      }
+  
+      const matchingBandwidth = Object.keys(channelMap).find((bandwidth) =>
+        channelMap[bandwidth].includes(enteredChannel)
+      );
+  
+      if (matchingBandwidth) {
+        bandwidthInput.value = matchingBandwidth;
+        populateChannels(channelDataList, channelMap[matchingBandwidth]);
+        updateRuOptions();
+      }
+    };
+  
     if (id === "Technology") {
       modeDataList.innerHTML = "";
       const modes =
         value === "U-NII"
           ? ["11a", "11ac", "11n", "11ax-(SU)", "11ax-(RU)"]
           : ["11b", "11g", "11n", "11ax-(SU)", "11ax-(RU)"];
-
+  
       modes.forEach((mode) => {
         const option = document.createElement("option");
         option.value = mode;
         modeDataList.appendChild(option);
       });
-
+  
+      modeInput.addEventListener("input", handleModeChange);
+  
       if (value === "DTS") {
         bandwidthInput.value = "20 MHz";
         disableInput(bandwidthInput);
-        populateChannels(
-          channelDataList,
-          Array.from({ length: 13 }, (_, i) => i + 1)
-        );
+        populateChannels(channelDataList, Array.from({ length: 13 }, (_, i) => i + 1));
         channelInput.value = "";
       } else if (value === "U-NII") {
         enableInput(bandwidthInput);
         bandwidthInput.value = "";
-
-        const channelMap = {
-          "20 MHz": twentyMhzChannels,
-          "40 MHz": fortyMhzChannels,
-          "80 MHz": eightyMhzChannels,
-          "160 MHz": hundredSixtyMhzChannels,
-        };
-
-        // Add an event listener to the bandwidthInput
-        bandwidthInput.addEventListener("input", function () {
-          const channels = channelMap[this.value];
-          if (channels) {
-            populateChannels(channelDataList, channels);
-            channelInput.value = "";
-          } else {
-            channelDataList.innerHTML = "";
-            channelInput.value = "";
-          }
-        });
-
-        // Add an event listener to the channelInput
-        channelInput.addEventListener("input", function () {
-          const enteredChannel = parseInt(this.value);
-
-          // Find the matching bandwidth based on the entered channel
-          const matchingBandwidth = Object.keys(channelMap).find((bandwidth) =>
-            channelMap[bandwidth].includes(enteredChannel)
-          );
-
-          if (matchingBandwidth) {
-            bandwidthInput.value = matchingBandwidth;
-            populateChannels(channelDataList, channelMap[matchingBandwidth]);
-          }
-        });
+        bandwidthInput.addEventListener("input", handleBandwidthChange);
+        channelInput.addEventListener("input", handleChannelChange);
       }
+  
       modeInput.value = "";
     }
-
+  
+    if (id === "Bandwidth") {
+      updateRuOptions();
+    }
+  
+    if (id === "RU-Length") {
+      updateRuOptions();
+    }
+  
+    function populateDataList(dataList, options) {
+      dataList.innerHTML = "";
+      options.forEach((option) => {
+        const optionElement = document.createElement("option");
+        optionElement.value = option;
+        dataList.appendChild(optionElement);
+      });
+    }
+  
     function populateChannels(dataList, channels) {
       dataList.innerHTML = "";
-
+  
       if (Array.isArray(channels)) {
         channels.forEach((channel) => {
           const option = document.createElement("option");
