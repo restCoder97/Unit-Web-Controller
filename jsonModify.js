@@ -336,7 +336,7 @@ export function choiceToJsonCommand(dict,testType) {
         dict_command['antenna'] = dict['Ant'];
       }
 
-      dict_command['frequency'] = dict["Frequency"]
+      dict_command['frequency'] = dict["Frequency"].toString().replace(/\.0$/, '');
       dict_command['power'] = "" + (dict['Power_Index']);
       dict_command['modulation'] = dict['Modulation'];
       dict_command['powerMode'] = dict['Power_Mode']
