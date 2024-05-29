@@ -7,9 +7,9 @@ export var wifi_par_dict = {
     "Bandwidth":["20 MHz","40 MHz","80 MHz","160 MHz"],
     "Channel": [],
     "Rate": "0-64",
-    "RU-Index":[],
     "RU-Length": [],
-    "Power-in-Q": Array.from({length: 201}, (_, i) => i - 100),
+    "RU-Index":[],
+    "Power-in-Q": Array.from({length: 201}, (_, i) => 100 - i),
     "Shoulder":["Low","High"]
 }
 const fdd_tdd_map = {"N2":"FDD","N5":"FDD","N7":"FDD","N12":"FDD","N25":"FDD","N30":"FDD","N66":"FDD","N71":"FDD","N41":"TDD","N38":"TDD","N48":"TDD","N77":"TDD","N78":"TDD","N79":"TDD","N14":"FDD","N70":"FDD"}
@@ -35,7 +35,7 @@ export var bt_par_dict = {
   "Mode":["HDR4","HDR8","HDRp4","HDRp8","BDR","EDR","BLE"],
   "Ant": ["1","2","3"],
   "Frequency": [],
-  "Modulation":["QPSK","8PSK"],
+  "Modulation":["GFSK","QPSK","8PSK"],
   "Power_Mode":["EPA","IPA"],
   "Data_Rate":["1Mbps","2Mbps"],
   "Power_Index":"1-30"

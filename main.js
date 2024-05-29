@@ -317,6 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         mainPage.appendChild(group);
 
+        
         if (typeof parDict[k] === "string"){//a number range
           var start = +parDict[k].split('-')[0];
           var end = +parDict[k].split('-')[1];

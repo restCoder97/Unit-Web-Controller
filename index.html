@@ -59,6 +59,11 @@
         </div>
       </div>
 
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="selectionHelperSwitch">
+        <label class="form-check-label" for="selectionHelperSwitch">Selection Helper</label>
+      </div>
+
       <div class="connect-form card text-center">
         <div class="card-header">Configuration</div>
 
@@ -144,6 +149,9 @@
                 <option value="AM_CS4">AM_CS4</option>
                 <option value="AM_CS5">AM_CS5</option>
                 <option value="AM_CS6">AM_CS6</option>
+                <option value="AM_CS7">AM_CS7</option>
+                <option value="AM_CS8">AM_CS8</option>
+                <option value="AM_Cubicle">AM_Cubicle</option>
               </select>
             </div>
 
@@ -290,14 +298,17 @@
         </button>
       </div>
       <div class="dialog-area">
-        <div class="form-floating">
-          <textarea
-            class="form-control floatingTextarea2"
-            placeholder="Leave a comment here"
-            id="dialog"
-            style="height: 250px"
-          ></textarea>
-          <label for="floatingTextarea2">Welcome to web controller!</label>
+        <div class="card text-center">
+          <div class="card-header" style="font-size: 20px">Log Information</div>
+          <div class="form-floating">
+            <textarea
+              class="form-control floatingTextarea2"
+              placeholder="Leave a comment here"
+              id="dialog"
+              style="height: 250px"
+            ></textarea>
+            <label for="floatingTextarea2">Welcome to web controller!</label>
+          </div>
         </div>
       </div>
     </div>
