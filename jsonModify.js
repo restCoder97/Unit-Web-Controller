@@ -1,15 +1,17 @@
-export const DUT_TYPE_MAPPING_EXT = ["ww1703_row", "ww1703_na", "aa1704", "cc2003", "cc1906", "cc1802", "cc1906", "cc2010_non_sig", "cc2010_sig", "aa2xx6", "wifi_bt_uwb_aa2xx6", "cell_wifi_bt_aa2xx6", "aa21xx", "aa21xx_wifi_bt", "cc2018_non_sig", "cc2018_sig", "bb1704", "c38", "bb1912", "bb20xx", "cc2003", "aa200x_wifi", "aa200x_bt", "aa200x_cell", "aa200x_cell_wifi_bt", "aa200x_tethered_nonsig", "bb2103_wifi", "bb2103_bt", "bb2103_wifi_bt", "bb2004_bt", "bb1912_wifi_bt", "bb2004_wifi_bt", "zz2053_bt", "bb2010_wifi_bt", "bb1805_wifi_bt", "bb1805_thread", "dut_aa21x3_aa21x7_wifi", "dut_aa21x3_aa21x7_bt", "dut_aa21x3_aa21x7_cell", "dut_aa21x3_aa21x7_cell_sig", "dut_aa21x3_aa21x7_2rx_cell", "dut_aa22x3_aa22x7_wifi", "dut_aa22x3_aa22x7_bt", "dut_aa22x3_aa22x7_cell", "dut_aa22x3_aa22x7_cell_sig", "dut_aa22x3_aa22x7_2rx_cell", "cell_regulatory_aa22x3_aa22x7_non_sig", "cell_regulatory_aa22x3_aa22x7_sig", "projectx_aa22x3_aa22x7", "aa22x3_thread", "aa22x3_wifi_bt", "dut_r2_uwb_diags", "bb2113_wifi_bt_thread", "bb2112_wifi_bt_thread", "bb2206_wifi_bt_thread", "bb2205_wifi_bt_thread", "cc220x_wifi_bt", "cc220x_non_sig","cc220x_wifi","cc220x_bt","cc220x_sig","dut_uwb_non_sig","cc2302_wifi"];
-
+export const DUT_TYPE_MAPPING_EXT = ["ww1703_row", "ww1703_na", "aa1704", "cc2003", "cc1906", "cc1802", "cc1906", "cc2010_non_sig", "cc2010_sig", "aa2xx6", "wifi_bt_uwb_aa2xx6", "cell_wifi_bt_aa2xx6", "aa21xx", "aa21xx_wifi_bt", "cc2018_non_sig", "cc2018_sig", "bb1704", "c38", "bb1912", "bb20xx", "cc2003", "aa200x_wifi", "aa200x_bt", "aa200x_cell", "aa200x_cell_wifi_bt", "aa200x_tethered_nonsig", "bb2103_wifi", "bb2103_bt", "bb2103_wifi_bt", "bb2004_bt", "bb1912_wifi_bt", "bb2004_wifi_bt", "zz2053_bt", "bb2010_wifi_bt", "bb1805_wifi_bt", "bb1805_thread", "dut_aa21x3_aa21x7_wifi", "dut_aa21x3_aa21x7_bt", "dut_aa21x3_aa21x7_cell", "dut_aa21x3_aa21x7_cell_sig", "dut_aa21x3_aa21x7_2rx_cell", "dut_aa22x3_aa22x7_wifi", "dut_aa22x3_aa22x7_bt", "dut_aa22x3_aa22x7_cell", "dut_aa22x3_aa22x7_cell_sig", "dut_aa22x3_aa22x7_2rx_cell", "cell_regulatory_aa22x3_aa22x7_non_sig", "cell_regulatory_aa22x3_aa22x7_sig", "projectx_aa22x3_aa22x7", "aa22x3_thread", "aa22x3_wifi_bt", "dut_r2_uwb_diags", "bb2113_wifi_bt_thread", "bb2112_wifi_bt_thread", "bb2206_wifi_bt_thread", "bb2205_wifi_bt_thread", "cc220x_wifi_bt", "cc220x_non_sig","cc220x_wifi","cc220x_bt","cc220x_sig","dut_uwb_non_sig","cc2302_wifi","zz2346_wifi"];
+export var str_device_type = "";
+const ru_length_5_map = {'375':'26T','750':"52T",'1500':'242T','3000':'484T','6000':'968T','8000':'996T',"":""}
+const ru_length_6_map = {'375':'26T','750':"52T",'1500':'106T','3000':'242T','6000':'968T','8000':'996T',"":""}
 export var wifi_par_dict = {
     "Technology":["U-NII","DTS"],
-    "Mode":["11b","11n","11ax-(RU)","11ax-(SU)","11ac","11g"],
-    "Ant": ["1","2","3"],
-    "Bandwidth":["20 MHz","40 MHz","80 Mhz","160 MHz"],
-    "Channel": "1-165",
-    "Rate": "0-16",
-    "RU-Index":["RU0","RU4", "RU8","RU9","RU17","RU18","RU36","RU37","RU38","RU39","RU40","RU41","RU44","RU45","RU52","RU53","RU54","RU55","RU56","RU61","RU62","RU63","RU64","RU65","RU66","RU67","RU68"],
-    "RU-Length": ["26T","52T","106T","242T","484T","968T","996T"],
-    "Power-in-Q":"1-100",
+    "Mode":[],
+    "Ant": ["C0A0","C1A0","C0A0+C1A0","C0A1","C1A1","C0A1+C1A0", "C0A0+C1A1"],
+    "Bandwidth":["20 MHz","40 MHz","80 MHz","160 MHz"],
+    "Channel": [],
+    "Rate": "0-64",
+    "RU-Length": [],
+    "RU-Index":[],
+    "Power-in-Q": Array.from({length: 201}, (_, i) => 100 - i),
     "Shoulder":["Low","High"]
 }
 const fdd_tdd_map = {"N2":"FDD","N5":"FDD","N7":"FDD","N12":"FDD","N25":"FDD","N30":"FDD","N66":"FDD","N71":"FDD","N41":"TDD","N38":"TDD","N48":"TDD","N77":"TDD","N78":"TDD","N79":"TDD","N14":"FDD","N70":"FDD"}
@@ -31,10 +33,10 @@ export var fr1_par_dict = {
 
 export var bt_par_dict = {
   "Technology":["Bluetooth_HDR","Bluetooth_BT","Bluetooth_BLE","BT5G_BLE","BT5G_HDR","BT5G_BT"],
-  "Band":["UNII-1","UNII-2","UNII-3","UNII-4","UNII-5A","UNII-5B","UNII-5C","UNII-5D"],
+  "Band":["UNII-1","UNII-2","UNII-3","UNII-5A","UNII-5B","UNII-5C","UNII-5D"],
   "Mode":["HDR4","HDR8","HDRp4","HDRp8","BDR","EDR","BLE"],
   "Ant": ["1","2","3"],
-  "Frequency": ["2402","2404","2441","2478","2480","2476","5150","6051","5162","5245","5733","5844","5953","6420"],
+  "Frequency": [],
   "Modulation":["GFSK","QPSK","8PSK"],
   "Power_Mode":["EPA","IPA"],
   "Data_Rate":["1Mbps","2Mbps"],
@@ -55,37 +57,20 @@ export function commandToChoice(command){
     if (command["Shoulder"] !== undefined){
       choiceDict["Shoulder"] = command["Shoulder"]
     }
-
-    switch(command["Length"]) {
-      case "375":
-        choiceDict["RU-Length"] = "26T";
-        break;
-      case "750":
-        choiceDict["RU-Length"] = "52T";
-        break;
-      case "1500":
-        if (parseInt(command['Channel'])>600){
-          choiceDict["RU-Length"] = "106T";
-        }else{
-          choiceDict["RU-Length"] = "242T"
-        }
-        break;
-      case "3000":
-        if (parseInt(command['Channel'])>600){
-          choiceDict["RU-Length"] = "242T";
-        }else{
-          choiceDict["RU-Length"] = "484T"
-        }
-        break;
-      case "6000":
-        choiceDict["RU-Length"] = "968T";
-        break;
-      case "8000":
-        choiceDict["RU-Length"] = "996T";
-        break;
-      default:
-        choiceDict["RU-Length"] = "";
+    if (command["Length"].includes("RU") || command["Length"].toLowerCase().includes("t")){
+      choiceDict["RU-Length"] = command["Length"].replace("RU","")
+      choiceDict["RU-Length"] = choiceDict["RU-Length"].replace("ru","")
+      if (choiceDict["RU-Length"].slice(-1).toLowerCase() !== 't') {
+        choiceDict["RU-Length"] += 'T'; // Add 'T' to the end of the string
+      }
     }
+    else{
+      if (parseInt(command['Channel'])>600){
+        choiceDict["RU-Length"] = ru_length_6_map[command['Length']]
+      }
+      else{choiceDict["RU-Length"] = ru_length_5_map[command['Length']]}
+    }
+    
     choiceDict['RU-Index'] = command['Index'];
     if (command["Mode"].includes("UNII")){
       choiceDict["Technology"] = "U-NII";
@@ -336,7 +321,7 @@ export function choiceToJsonCommand(dict,testType) {
         dict_command['antenna'] = dict['Ant'];
       }
 
-      dict_command['frequency'] = dict["Frequency"]
+      dict_command['frequency'] = dict["Frequency"].toString().replace(/\.0$/, '');
       dict_command['power'] = "" + (dict['Power_Index']);
       dict_command['modulation'] = dict['Modulation'];
       dict_command['powerMode'] = dict['Power_Mode']
@@ -384,6 +369,38 @@ export function choiceToJsonCommand(dict,testType) {
     
   }
 
+
+
+// switch(command["Length"]) {
+    //   case "375":
+    //     choiceDict["RU-Length"] = "26T";
+    //     break;
+    //   case "750":
+    //     choiceDict["RU-Length"] = "52T";
+    //     break;
+    //   case "1500":
+    //     if (parseInt(command['Channel'])>600){
+    //       choiceDict["RU-Length"] = "106T";
+    //     }else{
+    //       choiceDict["RU-Length"] = "242T"
+    //     }
+    //     break;
+    //   case "3000":
+    //     if (parseInt(command['Channel'])>600){
+    //       choiceDict["RU-Length"] = "242T";
+    //     }else{
+    //       choiceDict["RU-Length"] = "484T"
+    //     }
+    //     break;
+    //   case "6000":
+    //     choiceDict["RU-Length"] = "968T";
+    //     break;
+    //   case "8000":
+    //     choiceDict["RU-Length"] = "996T";
+    //     break;
+    //   default:
+    //     choiceDict["RU-Length"] = "";
+    // }
   
 
 
