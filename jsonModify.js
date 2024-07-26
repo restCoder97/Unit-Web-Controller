@@ -59,7 +59,7 @@ export function commandToChoice(command){
     }
     if (command["Length"].includes("RU") || command["Length"].toLowerCase().includes("t")){
       choiceDict["RU-Length"] = command["Length"].replace("RU","")
-      choiceDict["RU-Length"] = command["Length"].replace("ru","")
+      choiceDict["RU-Length"] = choiceDict["RU-Length"].replace("ru","")
       if (choiceDict["RU-Length"].slice(-1).toLowerCase() !== 't') {
         choiceDict["RU-Length"] += 'T'; // Add 'T' to the end of the string
       }
