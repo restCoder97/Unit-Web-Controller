@@ -10,7 +10,7 @@ import { databaseSelection,flagReset,recall_page } from "./main.js";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
+const billFirebaseConfig = {
   apiKey: "AIzaSyAPcGqDQOyANXdphMealcsxF06FGwsmmaw",
   authDomain: "emctest-dd6c4.firebaseapp.com",
   projectId: "emctest-dd6c4",
@@ -19,9 +19,19 @@ const firebaseConfig = {
   appId: "1:1016272423493:web:247f03ec74367a772af12c",
   measurementId: "G-0YPS3KD6Q3"
 };
+const elementFirebaseConfig = {
+  apiKey: "AIzaSyCkwA4ezwidWNRf6LzU6Wkg8K0fpgj7nlM",
+  authDomain: "element-testing-407f5.firebaseapp.com",
+  databaseURL: "https://element-testing-407f5-default-rtdb.firebaseio.com",
+  projectId: "element-testing-407f5",
+  storageBucket: "element-testing-407f5.appspot.com",
+  messagingSenderId: "1057313988203",
+  appId: "1:1057313988203:web:a90ef1308a7299ceb35b2e"
+};
+ 
+var app = NaN;
+var db = NaN;
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 var selected_chamber = "";
 var lastCommand = {};
 var aSocket =  new WebSocket(`ws://127.0.0.1:9669`);
@@ -57,6 +67,14 @@ export async function completeEmitting(data = NaN,bt_raw = ""){
 
 export async function connect(chamber,remoteMode = false){
     selected_chamber = chamber;
+    if(selected_chamber.includes("CS")){
+      app = initializeApp(elementFirebaseConfig);
+      db = getFirestore(app);
+    }else{
+      app = initializeApp(billFirebaseConfig);
+      db = getFirestore(app);
+    }
+    
     await setDoc(doc(db,selected_chamber,"emitted"),{"Connected":"Success"});
     await setDoc(doc(db,selected_chamber,"status"),{"status":"Sent:"});
     const unsub = onSnapshot(
