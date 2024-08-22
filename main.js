@@ -33,6 +33,11 @@ var firstTimeConneect = true;
 var powerChangeTime = 0
 var flag_reset = false;
 var is_ready = false;
+
+// Initialize Bootstrap Popovers
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
 export function flagReset(){
   flag_reset = true
 }
@@ -58,6 +63,8 @@ document.addEventListener('DOMContentLoaded', function() {
   var comport_input = document.getElementById('comport');
   textArea = document.getElementById("dialog");
   var socket = null
+  var reset_button = document.querySelector('#reset-button');
+  reset_button.addEventListener('click', resetInputs);
   setTestType();
   
   //coonecting socket
@@ -284,10 +291,33 @@ document.addEventListener('DOMContentLoaded', function() {
         const label = document.createElement('label')
         label.id = 'label'+k;
         input.id = 'input'+k;
+        input.setAttribute('data-id', k);
         console.log(input.id);
         label.innerText = k
         datalist.id = k
         group.appendChild(label)
+        // Line 300 - 318: Add the i button right after Ant
+        group.appendChild(input);
+        group.appendChild(datalist);
+        
+        if (k === 'Ant' && button.textContent === 'WIFI') {
+          const antInfoButton = createAntInfoButton();
+          const antContainer = document.createElement('div');
+          antContainer.style.display = 'flex';
+          antContainer.style.alignItems = 'center';
+          
+          antContainer.appendChild(label); // Append the label first
+          antContainer.appendChild(input); // Append the input
+          antContainer.appendChild(antInfoButton); // Append the button next to the label
+      
+          group.appendChild(antContainer); // Append the container to the group
+          // Initialize the popover
+          new bootstrap.Popover(antInfoButton);
+        }
+        
+        mainPage.appendChild(group);
+
+        
         if (typeof parDict[k] === "string"){//a number range
           var start = +parDict[k].split('-')[0];
           var end = +parDict[k].split('-')[1];
@@ -323,8 +353,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
   });
   });
-});
 
+  function resetInputs() {
+    var inputs = document.querySelectorAll('#group-area input');
+    inputs.forEach(input => {
+      input.value = '';
+      input.disabled = false;
+    });
+  }
+
+});
 
 export function databaseSelection(data){
   if(remoteControl){
@@ -373,6 +411,22 @@ function setTestType(){
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+function createAntInfoButton() {
+  const button = document.createElement('a');
+  button.setAttribute('tabindex', '0');
+  button.className = 'btn btn-lg btn-info';
+  button.setAttribute('role', 'button');
+  button.setAttribute('data-bs-toggle', 'popover');
+  button.setAttribute('data-bs-trigger', 'focus');
+  button.setAttribute('data-bs-html', 'true');
+  button.setAttribute('data-bs-title', 'Ant Information');
+  button.style.cssText = 'width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; padding: 0; font-size: 12px; margin-left: 5px;'; // Add margin-left here
+  button.setAttribute('data-bs-content', 'C0A0: Primary Ant1<br/> C1A0: Primary Ant2<br/>C0A0+C1A0: Primary MIMO<br/>C0A1: Diversity Ant1<br/>C1A1: Diversity Ant2<br/>C0A1+C1A0: MIMO Ant1 Diversity<br/>C0A0+C1A1: MIMO Ant2 Diversity');
+  button.textContent = 'i';
+  return button;
+}
+
 
 
 export function recall_page(){
