@@ -67,13 +67,12 @@ export async function completeEmitting(data = NaN,bt_raw = ""){
 
 export async function connect(chamber,remoteMode = false){
     selected_chamber = chamber;
-    if(selected_chamber.includes("CS")){
-      app = initializeApp(elementFirebaseConfig);
-      db = getFirestore(app);
-    }else{
-      app = initializeApp(billFirebaseConfig);
-      db = getFirestore(app);
-    }
+    app = initializeApp(elementFirebaseConfig);
+    db = getFirestore(app);
+    
+    //app = initializeApp(billFirebaseConfig);
+    //db = getFirestore(app);
+    
     
     await setDoc(doc(db,selected_chamber,"emitted"),{"Connected":"Success"});
     await setDoc(doc(db,selected_chamber,"status"),{"status":"Sent:"});
