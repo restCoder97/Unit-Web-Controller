@@ -34,13 +34,13 @@ var db = NaN;
 
 var selected_chamber = "";
 var lastCommand = {};
-// var aSocket =  new WebSocket(`ws://127.0.0.1:9669`);
-// aSocket.onmessage = function(event){
-//   if (event.data == "Websocket Good"){
-//     var btconnect = document.querySelector('.connect-form button');
-//     btconnect.click()
-//   }
-// }
+var aSocket =  new WebSocket(`ws://127.0.0.1:9669`);
+aSocket.onmessage = function(event){
+  if (event.data == "Websocket Good"){
+    var btconnect = document.querySelector('.connect-form button');
+    btconnect.click()
+  }
+}
 
 export async function qurey(chamber,information){    
     const docRef = doc(db,chamber,information);
