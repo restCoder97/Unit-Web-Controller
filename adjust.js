@@ -139,18 +139,18 @@ export function adjust_selection(test, id, value) {
         }
       };
 
-      const handleRuLengthChange = () => {
-        if (ruLengthInput.value !== "") {
-          modeInput.value = "11ax-(RU)";
-        }
-        updateRuOptions();
-      };
+      // const handleRuLengthChange = () => {
+      //   if (ruLengthInput.value !== "") {
+      //     modeInput.value = "11ax-(RU)";
+      //   }
+      //   updateRuOptions();
+      // };
 
-      const handleRuIndexChange = () => {
-        if (ruIndexInput.value !== "") {
-          modeInput.value = "11ax-(RU)";
-        }
-      };
+      // const handleRuIndexChange = () => {
+      //   if (ruIndexInput.value !== "") {
+      //     modeInput.value = "11ax-(RU)";
+      //   }
+      // };
 
       if (id === "Technology") {
         modeDataList.innerHTML = "";
