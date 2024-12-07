@@ -156,8 +156,8 @@ export function adjust_selection(test, id, value) {
         modeDataList.innerHTML = "";
         const modes =
           value === "U-NII"
-            ? ["11a", "11ac", "11n", "11ax-(SU)", "11ax-(RU)"]
-            : ["11b", "11g", "11n", "11ax-(SU)", "11ax-(RU)"];
+            ? ["11a", "11ac", "11n", "11ax-(SU)", "11ax-(RU)","11be-(SU)", "11be-(RU)"]
+            : ["11b", "11g", "11n", "11ax-(SU)", "11ax-(RU)","11be-(SU)", "11be-(RU)"];
 
         modes.forEach((mode) => {
           const option = document.createElement("option");
