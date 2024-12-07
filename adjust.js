@@ -100,7 +100,7 @@ export function adjust_selection(test, id, value) {
       };
 
       const handleModeChange = () => {
-        if (modeInput.value === "11ax-(RU)") {
+        if (modeInput.value === "11ax-(RU)"||modeInput.value === "11be-(RU)") {
           enableInput(ruIndexInput);
           enableInput(ruLengthInput);
           updateRuOptions();
