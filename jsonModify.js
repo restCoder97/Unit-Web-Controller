@@ -247,9 +247,6 @@ export var fr1_json_template = {
 }
 
 
-
-
-
 export function choiceToJsonCommand(dict,testType) {
     if(testType === "WIFI"){
       var dict_command = wifi_json_template;

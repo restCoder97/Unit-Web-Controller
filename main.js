@@ -32,14 +32,16 @@ var awaitSend = null;
 var firstTimeConneect = true;
 var powerChangeTime = 0
 var flag_reset = false;
+var reset_and_send = false;
 var is_ready = false;
 
 // Initialize Bootstrap Popovers
 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
 const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 
-export function flagReset(){
+export function flagReset(reset_send = false){
   flag_reset = true
+  reset_and_send = reset_send;
 }
 
 console.log(subtitleButtons.length);
@@ -229,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (flag_reset){
       var object = JSON.parse(jsonCommand)
-      object['restart'] = ""
+      object['unit_reset'] = reset_and_send;
       socket.send(JSON.stringify(object))
       flag_reset = false
       update_status("Resetting")
@@ -368,10 +370,10 @@ export function databaseSelection(data){
   if(remoteControl){
     return
   }
-  if("redo" in data){
+  if("reset" in data){
     powerChangeTime = 1000;
-    textArea.value+= "ReDo Same Channel!\n";
-    textArea.scrollTop = textArea.scrollHeight;
+    flag_reset = true;
+    reset_and_send = data['reset'];
   }
   const chocies = commandToChoice(data);
   textArea.value = "New Command Found From Databse!\n";
