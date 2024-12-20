@@ -85,7 +85,7 @@ export function commandToChoice(command){
             choiceDict["Mode"] = "11ax-(SU)";
         }
     }else if(mode.includes("RU")){
-      if(mode.includes("be"){
+      if(mode.includes("be")){
           choiceDict["Mode"] = "11be-(RU)";
       }
       else{
