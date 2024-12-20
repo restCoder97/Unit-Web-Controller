@@ -79,11 +79,18 @@ export function commandToChoice(command){
       choiceDict["Technology"] = "DTS";
     }
     if(mode.includes("SU")){
-        if(mode.includes("be"){choiceDict["Mode"] = "11be-(SU)";}
-        else{choiceDict["Mode"] = "11ax-(SU)";}
+        if(mode.includes("be"){
+            choiceDict["Mode"] = "11be-(SU)";
+        }else{
+            choiceDict["Mode"] = "11ax-(SU)";
+        }
     }else if(mode.includes("RU")){
-      if(mode.includes("be"){choiceDict["Mode"] = "11be-(RU)";}
-      else{choiceDict["Mode"] = "11ax-(RU)";}
+      if(mode.includes("be"){
+          choiceDict["Mode"] = "11be-(RU)";
+      }
+      else{
+          choiceDict["Mode"] = "11ax-(RU)";
+      }
     }else if(mode.includes("11ac")){
       choiceDict["Mode"] = "11ac";
     }else if(mode.includes("11b")){
