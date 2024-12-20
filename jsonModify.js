@@ -79,7 +79,7 @@ export function commandToChoice(command){
       choiceDict["Technology"] = "DTS";
     }
     if(mode.includes("SU")){
-        if(mode.includes("be"){
+        if(mode.includes("be")){
             choiceDict["Mode"] = "11be-(SU)";
         }else{
             choiceDict["Mode"] = "11ax-(SU)";
