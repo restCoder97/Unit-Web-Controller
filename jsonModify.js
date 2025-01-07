@@ -319,6 +319,9 @@ export function choiceToJsonCommand(dict,testType) {
       if(dict['Ant']=='3' || dict['Ant'] == 'MIMO'){
         dict_command['sisoOrMimo'] = "MIMO";
         dict_command['antenna'] = '1+2';
+      }else if(dict['Ant'].includes("+")){
+        dict_command['sisoOrMimo'] = "MIMO";
+        dict_command['antenna'] = dict['Ant'];
       }else{
         dict_command['sisoOrMimo'] = "SISO";
         if (dict['Ant'].toString().toLowerCase().includes('diversity')||dict['Ant'].toString().toLowerCase().includes('dedicated')){
