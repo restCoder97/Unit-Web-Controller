@@ -367,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 export function databaseSelection(data){
-  if(remoteControl){
+  if(Object.keys(data).length === 0 || remoteControl){
     return
   }
   if("reset" in data){
