@@ -61,6 +61,13 @@ export function commandToChoice(command){
     if (command["Shoulder"] !== undefined){
       choiceDict["Shoulder"] = command["Shoulder"]
     }
+    if(command["sb"] !== undefined){
+      if(command["sb"].toLowerCase().includes("t")){
+        choiceDict["Shoulder"] = 'Low'    
+      }else{
+        choiceDict["Shoulder"] = 'High'    
+      }
+    }
     if (command["Length"].includes("RU") || command["Length"].toLowerCase().includes("t")){
       choiceDict["RU-Length"] = command["Length"].replace("RU","")
       choiceDict["RU-Length"] = choiceDict["RU-Length"].replace("ru","")
@@ -289,7 +296,10 @@ export function choiceToJsonCommand(dict,testType) {
         dict_command['tone'] = 'SU';
         dict_command["resourceUnit"] = '';
       }
-      if(dict['Shoulder'] !== null){dict_command['bandedgeLowOrHigh'] = dict['Shoulder']}
+      if(dict['Shoulder'] !== null){
+        dict_command['bandedgeLowOrHigh'] = dict['Shoulder']
+        dict_command['sb'] = dict['Shoulder']
+      }
       dict_command["technology"] = "WLAN " + dict["Technology"]+" "+dict_command['mode'];
       dict_command['channel'] = dict["Channel"];
       let s_channel = dict_command["channel"]
