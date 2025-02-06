@@ -62,7 +62,7 @@ export function commandToChoice(command){
       choiceDict["Shoulder"] = command["Shoulder"]
     }
     if(command["sb"] !== undefined){
-      if(command["sb"].toLowerCase().includes("t")){
+      if(command["sb"].toLowerCase().includes("l")){
         choiceDict["Shoulder"] = 'Low'    
       }else{
         choiceDict["Shoulder"] = 'High'    
