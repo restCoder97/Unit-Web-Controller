@@ -130,7 +130,7 @@ export function commandToChoice(command){
     choiceDict["Power-Class"] = "2"
     choiceDict["Technology"] = "FR1"
   }
-  else if('band' in command && command['band'].includes('B') && 'unii' not in command['band'].toLowerCase() ){//is LTE
+  else if('band' in command && command['band'].includes('B') && ! command['band'].toLowerCase().includes('unii')){//is LTE
     choiceDict = lte_par_dict;
     choiceDict["Technology"] = "LTE"
     for(const k in choiceDict){
