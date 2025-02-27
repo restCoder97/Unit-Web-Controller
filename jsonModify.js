@@ -302,7 +302,9 @@ export function choiceToJsonCommand(dict,testType) {
       }
       if(dict['Shoulder'] !== null){
         dict_command['bandedgeLowOrHigh'] = dict['Shoulder']
-        dict_command['sub_band'] = dict['Shoulder']
+        if(dict_command['sub_band'] == undefined){
+            dict_command['sub_band'] = dict['Shoulder']    
+        }
       }
       dict_command["technology"] = "WLAN " + dict["Technology"]+" "+dict_command['mode'];
       dict_command['channel'] = dict["Channel"];
