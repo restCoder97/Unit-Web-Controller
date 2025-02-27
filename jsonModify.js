@@ -81,8 +81,17 @@ export function commandToChoice(command){
       }
       else{choiceDict["RU-Length"] = ru_length_5_map[command['Length']]}
     }
+    if(command["sb"] !== undefined){
+        choiceDict['RU-Index'] = command['Index'];
+    }
+    else{
+        if(command["sb"].toLowerCase().includes("l")){
+          choiceDict['RU-Index'] = command['Index']+'-L';
+        }else{
+            choiceDict['RU-Index'] = command['Index']+'-H';
+        }
+    }
     
-    choiceDict['RU-Index'] = command['Index'];
     if (command["Mode"].includes("UNII")){
       choiceDict["Technology"] = "U-NII";
       
