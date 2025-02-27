@@ -81,7 +81,7 @@ export function commandToChoice(command){
       }
       else{choiceDict["RU-Length"] = ru_length_5_map[command['Length']]}
     }
-    if(command["sb"] !== undefined){
+    if(command["sb"] == undefined){
         choiceDict['RU-Index'] = command['Index'];
     }
     else{
