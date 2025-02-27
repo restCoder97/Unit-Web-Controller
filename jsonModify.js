@@ -289,7 +289,7 @@ export function choiceToJsonCommand(dict,testType) {
       if (dict['Mode'].includes('RU')){
         if(dict["RU-Index"].includes('-')){//support to 160MHz subband manual defines
             dict["RU-Index"] = dict["RU-Index"].split('-')[0]
-            dict['Shoulder'] = dict["RU-Index"].split('-')[1]
+            dict_command['sub_band'] = dict['Shoulder']
         }
         dict_command['tone'] = dict['RU-Length'];
         dict_command["resourceUnit"] = dict['RU-Index'];
