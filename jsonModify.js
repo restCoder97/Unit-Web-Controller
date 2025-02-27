@@ -288,8 +288,8 @@ export function choiceToJsonCommand(dict,testType) {
       dict_command['dataRate'] = "MCS" + dict['Rate'];
       if (dict['Mode'].includes('RU')){
         if(dict["RU-Index"].includes('-')){//support to 160MHz subband manual defines
+            dict_command['sub_band'] = dict["RU-Index"].split('-')[1]
             dict["RU-Index"] = dict["RU-Index"].split('-')[0]
-            dict_command['sub_band'] = dict['Shoulder']
         }
         dict_command['tone'] = dict['RU-Length'];
         dict_command["resourceUnit"] = dict['RU-Index'];
