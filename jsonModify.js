@@ -298,6 +298,7 @@ export function choiceToJsonCommand(dict,testType) {
       if (dict['Mode'].includes('RU')){
         if(dict["RU-Index"].includes('-')){//support to 160MHz subband manual defines
             dict_command['sub_band'] = dict["RU-Index"].split('-')[1]
+            dict_command["sb"] = dict_command["sub_band"].toLowerCase().includes("h") ? "1" : "0";
             dict["RU-Index"] = dict["RU-Index"].split('-')[0]
         }
         dict_command['tone'] = dict['RU-Length'];
@@ -313,6 +314,7 @@ export function choiceToJsonCommand(dict,testType) {
         dict_command['bandedgeLowOrHigh'] = dict['Shoulder']
         if(dict_command['sub_band'] == undefined){
             dict_command['sub_band'] = dict['Shoulder']    
+            dict_command["sb"] = dict_command["sub_band"].toLowerCase().includes("h") ? "1" : "0";
         }
       }
       dict_command["technology"] = "WLAN " + dict["Technology"]+" "+dict_command['mode'];
