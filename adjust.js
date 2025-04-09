@@ -374,7 +374,11 @@ export function adjust_selection(test, id, value) {
 
       if (id === "Data_Rate") {
         if (value !== "") {
-          modeInput.value = "BLE";
+          if(value.toLowerCase().includes('hdt')){
+            modeInput.value = "HDT"
+          }else{
+            modeInput.value = "BLE";
+          }
           disableInput(modulationInput);
         }
       }
