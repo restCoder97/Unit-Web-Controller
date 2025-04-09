@@ -33,14 +33,14 @@ export var fr1_par_dict = {
 }
 
 export var bt_par_dict = {
-  "Technology":["Bluetooth_HDR","Bluetooth_BT","Bluetooth_BLE","BT5G_BLE","BT5G_HDR","BT5G_BT"],
-  "Band":["UNII-1","UNII-2","UNII-3","UNII-5A","UNII-5B","UNII-5C","UNII-5D"],
-  "Mode":["HDR4","HDR8","HDRp4","HDRp8","HDRPS2","HDRPM8","HDRPM16","HDRPL16","HDRPL32","BDR","EDR","BLE"],
+  "Technology":["Bluetooth_HDR","Bluetooth_BT","Bluetooth_BLE","BT5G_BLE","BT5G_HDR","BT5G_BT","BT5G_HDT","Bluetooth_HDT"],
+  "Band":["UNII-1","UNII-2","UNII-3","UNII-5A","UNII-5B","UNII-5C","UNII-5D","2.4G"],
+  "Mode":["HDR4","HDR8","HDRp4","HDRp8","HDRPS2","HDRPM8","HDRPM16","HDRPL16","HDRPL32","BDR","EDR","BLE","HDT"],
   "Ant": ["1","2","3"],
   "Frequency": [],
   "Modulation":["GFSK","QPSK","8PSK"],
   "Power_Mode":["EPA","IPA"],
-  "Data_Rate":["1Mbps","2Mbps"],
+  "Data_Rate":["1Mbps","2Mbps","hdt2","hdt3","hdt4","hdt6","hdt8"],
   "Power_Index":"1-30"
 }
 
@@ -346,6 +346,8 @@ export function choiceToJsonCommand(dict,testType) {
       if (dict['Mode'].includes("HDR")){
         dict_command['technology'] = dict_command["technology"]+"_HDR"
       }else if(dict['Mode'].includes("BLE")){
+        dict_command['technology'] = dict_command["technology"]+"_BLE"
+      }else if(dict["Mode"].includes("HDT")){
         dict_command['technology'] = dict_command["technology"]+"_BLE"
       }else{
         dict_command['technology'] = dict_command["technology"]+"_BT"
