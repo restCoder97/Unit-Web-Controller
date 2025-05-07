@@ -13,7 +13,7 @@ export var wifi_par_dict = {
     "RU-Index":[],
     "Power-in-Q": Array.from({length: 201}, (_, i) => 100 - i),
     "Shoulder":["Low","High"],
-    "CFR":["LEFT","MID","RIGHT"]
+    "CFR":["LEFT_ON","MID_ON","RIGHT_ON","LEFT_OFF","MID_OFF","RIGHT_OFF","DUAL_ON","DUAL_OFF","DISABLE"]
 }
 const fdd_tdd_map = {"N2":"FDD","N5":"FDD","N7":"FDD","N12":"FDD","N25":"FDD","N30":"FDD","N66":"FDD","N71":"FDD","N41":"TDD","N38":"TDD","N48":"TDD","N77":"TDD","N78":"TDD","N79":"TDD","N14":"FDD","N70":"FDD"}
 const bandstring = "N1,N2,N3,N5,N7,N8,N12,N20,N25,N28,N30,N38,N40,N41,N48,N66,N71,N77,N78,N79,N77,N78,N79,N77,N78,N79,N77,N78,N79";
@@ -332,6 +332,8 @@ export function choiceToJsonCommand(dict,testType) {
       dict_command['bandwidth'] = parseInt(dict["Bandwidth"].split(" ")[0]);
       if("CFR" in dict && dict['CFR'].trim().length > 0){
           dict_command['CFR'] = dict['CFR'];
+      }else{
+          dict_command['CFR'] = "";
       }
       return JSON.stringify(dict_command);
     }
