@@ -18,6 +18,7 @@ export var wifi_par_dict = {
 const fdd_tdd_map = {"N2":"FDD","N5":"FDD","N7":"FDD","N12":"FDD","N25":"FDD","N30":"FDD","N66":"FDD","N71":"FDD","N41":"TDD","N38":"TDD","N48":"TDD","N77":"TDD","N78":"TDD","N79":"TDD","N14":"FDD","N70":"FDD"}
 const bandstring = "N1,N2,N3,N5,N7,N8,N12,N20,N25,N28,N30,N38,N40,N41,N48,N66,N71,N77,N78,N79,N77,N78,N79,N77,N78,N79,N77,N78,N79";
 export var fr1_par_dict = {
+  "TECH":["FR1"],
   "Technology": ["FR1"],
   "Band": bandstring.split(','),
   "Bandwidth": ["5","10","15","20","30","40","50","60","70","80","90","100"],
