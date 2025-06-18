@@ -424,6 +424,8 @@ export function choiceToJsonCommand(dict,testType) {
       dict_command['channel'] = dict["Channel"];
       dict_command["uplinkChannel"] = dict["Uplink"];
       dict_command["downlinkChannel"] = dict["Downlink"];
+      dict_command["ul_channel"] = dict["Uplink"];
+      dict_command["dl_channel"] = dict["Downlink"];
       dict_command["srb"] = dict['RB-Offset'].split("-")[1];
       dict_command["nrb"] = dict['RB-Offset'].split("-")[0];
       return JSON.stringify(dict_command);
