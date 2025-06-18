@@ -257,6 +257,7 @@ export var lte_json_template = {//LTE JSON
 }
 
 export var fr1_json_template = {
+  "TECH":"FR1",
   "band": "n5",
   "bandwidth": "10.0",
   "testType": "HARM",
