@@ -274,7 +274,13 @@ export var fr1_json_template = {
   "downlinkChannel": "174800",
   "echoDelay": 0,
   "bandwidthUnits": "MHz",
-  "command": "Toggle"
+  "command": "Toggle",
+  "subframe_symbol": "0",
+  "waveform": "DF",
+  "ns_value": "10",
+  "carrier_index": "0",
+  "boost_in_dB": "0.7",
+  "duty_cycle": "10",
 }
 
 
@@ -396,22 +402,30 @@ export function choiceToJsonCommand(dict,testType) {
     else if(testType == "FR1"){
       var dict_command = fr1_json_template;
       if(dict['Band'] in fdd_tdd_map && fdd_tdd_map[dict['Band']]=="TDD") {
-        dict_command['subCarrierSpacing'] = '30000'
+        dict_command['subCarrierSpacing'] = '30000';
+        dict_command['sub_carrier_spacing'] = '30000';
       }else{
         dict_command['subCarrierSpacing'] = '15000'
+        dict_command['sub_carrier_spacing'] = '15000';
       }
       dict_command["technology"] = dict["Technology"];
       dict_command['band'] = dict['Band'];
+      dict_command['BAND'] = dict['Band'];
       dict_command['bandwidth'] = dict['Bandwidth'];
       dict_command['resourceBlock'] =  dict['RB-Offset'];
       dict_command['power'] = dict['Power'];
+      dict_command['power_level'] = dict['Power'];
       dict_command["powerclass"] = dict['Power-Class'];
       dict_command['antenna'] = dict['Ant'];
+      dict_command['Antenna'] = dict['Ant'];
+      dict_command['power_class'] = dict['Power-Class'];  
       dict_command['modulation'] = dict['Modulation'];
       dict_command['frequency'] = dict["Frequency"]
       dict_command['channel'] = dict["Channel"];
       dict_command["uplinkChannel"] = dict["Uplink"];
       dict_command["downlinkChannel"] = dict["Downlink"];
+      dict_command["srb"] = dict['RB-Offset'].split("-")[1];
+      dict_command["nrb"] = dict['RB-Offset'].split("-")[0];
       return JSON.stringify(dict_command);
     }
     return null;
