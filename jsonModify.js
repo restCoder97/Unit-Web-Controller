@@ -137,7 +137,7 @@ export function commandToChoice(command){
     }else{
       choiceDict["Sub-Carrier-Spacing"] = '15000'
     }
-    choiceDict["Power-Class"] = "2"
+    choiceDict["Power-Class"] = "3"
     choiceDict["Technology"] = "FR1"
   }
   else if('band' in command && command['band'].includes('B') && ! command['band'].toLowerCase().includes('unii')){//is LTE
