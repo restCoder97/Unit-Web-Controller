@@ -418,6 +418,15 @@ export function choiceToJsonCommand(dict,testType) {
       dict_command["powerclass"] = dict['Power-Class'];
       dict_command['antenna'] = dict['Ant'];
       dict_command['Antenna'] = dict['Ant'];
+      if(String(dict_command['Antenna']) == '1'){
+          dict_command['Antenna'] = "PortA"
+      }else if(String(dict_command['Antenna']) == '2'){
+          dict_command['Antenna'] = "PortB"
+      }else if(String(dict_command['Antenna']) == '3'){
+          dict_command['Antenna'] = "PortC"
+      }else if(String(dict_command['Antenna']) == '4'){
+          dict_command['Antenna'] = "PortD"
+      }
       dict_command['power_class'] = dict['Power-Class'];  
       dict_command['modulation'] = dict['Modulation'];
       dict_command['frequency'] = dict["Frequency"]
