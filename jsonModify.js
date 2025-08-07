@@ -13,7 +13,8 @@ export var wifi_par_dict = {
     "RU-Index":[],
     "Power-in-Q": Array.from({length: 201}, (_, i) => 100 - i),
     "Shoulder":["Low","High"],
-    "CFR":["LEFT_ON","MID_ON","RIGHT_ON","LEFT_OFF","MID_OFF","RIGHT_OFF","DUAL_ON","DUAL_OFF","DISABLE"]
+    "CFR":["LEFT_ON","MID_ON","RIGHT_ON","LEFT_OFF","MID_OFF","RIGHT_OFF","DUAL_ON","DUAL_OFF","DISABLE"],
+    "Subband-Index":["0-0","0-1","0-2","0-3","0-4","0-5","0-6","0-7","1-0","1-1","1-2","1-3","2-0","2-1"]
 }
 const fdd_tdd_map = {"N2":"FDD","N5":"FDD","N7":"FDD","N12":"FDD","N25":"FDD","N30":"FDD","N66":"FDD","N71":"FDD","N41":"TDD","N38":"TDD","N48":"TDD","N77":"TDD","N78":"TDD","N79":"TDD","N14":"FDD","N70":"FDD"}
 const bandstring = "N1,N2,N3,N5,N7,N8,N12,N20,N25,N28,N30,N38,N40,N41,N48,N66,N71,N77,N78,N79,N77,N78,N79,N77,N78,N79,N77,N78,N79";
@@ -60,7 +61,10 @@ export function commandToChoice(command){
       choiceDict["CFR"] = command["CFR"];
     }
     if (command["Shoulder"] !== undefined){
-      choiceDict["Shoulder"] = command["Shoulder"]
+      choiceDict["Shoulder"] = command["Shoulder"];
+    }
+    if (command["Subband-Index"] !== undefined){
+      choiceDict["Subband-Index"] = command["Subband-Index"];
     }
     if(command["sb"] !== undefined){
       if(command["sb"].toLowerCase().includes("l")){
@@ -342,6 +346,9 @@ export function choiceToJsonCommand(dict,testType) {
           dict_command['CFR'] = dict['CFR'];
       }else{
           dict_command['CFR'] = "";
+      }
+      if("Subband-Index" in dict && dict["Subband-Index"].trim().length >0){
+          dict_command['Subband-Index'] = dict['Subband-Index'];
       }
       return JSON.stringify(dict_command);
     }
