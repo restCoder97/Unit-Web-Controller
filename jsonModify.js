@@ -347,7 +347,7 @@ export function choiceToJsonCommand(dict,testType) {
       }else{
           dict_command['CFR'] = "";
       }
-      if("Subband-Index" in dict && dict["Subband-Index"].trim().length >0){
+      if("Subband-Index" in dict){
           dict_command['Subband-Index'] = dict['Subband-Index'];
       }
       return JSON.stringify(dict_command);
