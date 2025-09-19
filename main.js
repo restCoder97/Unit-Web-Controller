@@ -5,6 +5,7 @@ import {wifi_par_dict,bt_par_dict,lte_par_dict,fr1_par_dict,DUT_TYPE_MAPPING_EXT
 import {adjust_selection}  from "./adjust.js";
 import { qurey,connect,completeEmitting,update_status} from "./network.js";
 import {readFR1Channels} from "./adjust.js"
+
 Element.prototype.remove = function() {
   this.parentElement.removeChild(this);
 }
@@ -375,7 +376,7 @@ export function databaseSelection(data){
     flag_reset = true;
     reset_and_send = data['reset'];
   }
-  const chocies = commandToChoice(data);
+  const chocies = commandToChoice(data,test_type_input);
   textArea.value = "New Command Found From Databse!\n";
   textArea.scrollTop = textArea.scrollHeight;
   for(const k in chocies){
