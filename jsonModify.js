@@ -164,7 +164,14 @@ export function commandToChoice(command){
       if (s == "ant" && (command[s].toString().toLowerCase().includes("dedicated"))){
         choiceDict[k] = "Dedicated"
       }
-      //if(s.includes("power")){choiceDict["Power-Index"] = command['power']}
+      if(str_device_type.toString().toLowerCase().includes('cc24xx')){
+          if (s == "ant" && (command[s].toString().toLowerCase().includes("2+3"))){
+            choiceDict[k] = "2+4"
+          }
+          if (s == "ant" && (command[s].toString().toLowerCase().includes("1+3"))){
+            choiceDict[k] = "1+5"
+          }    
+      }
     }
     return choiceDict
   }
