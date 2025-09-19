@@ -47,7 +47,7 @@ export var bt_par_dict = {
 }
 
 
-export function commandToChoice(command){
+export function commandToChoice(command,test_type){
   var choiceDict = {};
   let tech = command["technology"]
   if ("Mode" in command && ((command["Mode"].includes("DTS")) || (command["Mode"].includes("UNII")))){// is wifi
@@ -164,7 +164,7 @@ export function commandToChoice(command){
       if (s == "ant" && (command[s].toString().toLowerCase().includes("dedicated"))){
         choiceDict[k] = "Dedicated"
       }
-      if(str_device_type.toString().toLowerCase().includes('cc24xx')){
+      if(test_type.toString().toLowerCase().includes('cc24xx')){
           if (s == "ant" && (command[s].toString().toLowerCase().includes("2+3"))){
             choiceDict[k] = "2+4"
           }
