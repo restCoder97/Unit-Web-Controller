@@ -376,6 +376,7 @@ export function databaseSelection(data){
     flag_reset = true;
     reset_and_send = data['reset'];
   }
+  var test_type_input = document.getElementById("test_type").value;
   const chocies = commandToChoice(data,test_type_input);
   textArea.value = "New Command Found From Databse!\n";
   textArea.scrollTop = textArea.scrollHeight;
