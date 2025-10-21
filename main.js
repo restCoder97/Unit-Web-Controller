@@ -136,15 +136,17 @@ document.addEventListener('DOMContentLoaded', function() {
         bt_raw_data += '\n'
         bt_raw_data += event.data
       }
-      if (message.includes("Success") && message.includes("status") && (message.length<150 || (message.includes("command") && message.includes("power"))){
-        status.innerText = "Success"; 
-        status.style.color = 'green';
-        if (bt_raw_data!=""){
-          completeEmitting(lastCommand,bt_raw_data);
-        }else{
-          completeEmitting(lastCommand);
-        }
-        bt_raw_data = ""
+      if (message.includes("Success") && message.includes("status")){
+        if (message.length<150 || (message.includes("command") && message.includes("power"))){
+          status.innerText = "Success"; 
+          status.style.color = 'green';
+          if (bt_raw_data!=""){
+            completeEmitting(lastCommand,bt_raw_data);
+          }else{
+            completeEmitting(lastCommand);
+          }
+          bt_raw_data = ""
+        }  
       }else if (message.includes("Ready!")){
         send_button.disabled = false;
         listen_button.disabled = false;
