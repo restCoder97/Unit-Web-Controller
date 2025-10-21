@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
         bt_raw_data += '\n'
         bt_raw_data += event.data
       }
-      if (message.includes("Success") && message.includes("status") && message.length<150){
+      if (message.includes("Success") && message.includes("status") && (message.length<150 || (message.includes("command") && message.includes("power"))){
         status.innerText = "Success"; 
         status.style.color = 'green';
         if (bt_raw_data!=""){
