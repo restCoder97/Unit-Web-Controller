@@ -57,6 +57,9 @@ export function commandToChoice(command,test_type){
     choiceDict["Channel"] = command["Channel"].toString();
     choiceDict["Rate"] = command["Rate"].toString();
     choiceDict["Power-in-Q"] = command["Power"].toString();
+    if("mimoScheme" in command){
+        choiceDict['mimoScheme'] = command["mimoScheme"].toString();    
+    }
     if (command["CFR"] !== undefined){
       choiceDict["CFR"] = command["CFR"];
     }
@@ -301,7 +304,11 @@ export function choiceToJsonCommand(dict,testType) {
       dict_command['mode'] = dict['Mode'].split('-')[0];
       if(dict['Ant']=='3' || dict['Ant'].includes("+")){
         dict_command['sisoOrMimo'] = "MIMO";
-        dict_command['mimoScheme'] = "CDD"
+        if (!("mimoScheme" in dict) || dict['mimoScheme'] != 'SDM'){
+            dict_command['mimoScheme'] = "CDD"    
+        }else{
+            dict_command['mimoScheme'] = "SDM"    
+        }
       }else{
         dict_command['sisoOrMimo'] = "SISO";
         dict_command['mimoScheme'] = "SISO"
