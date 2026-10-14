@@ -3,8 +3,9 @@
 import {choiceToJsonCommand,commandToChoice} from "./jsonModify.js";
 import {wifi_par_dict,bt_par_dict,lte_par_dict,fr1_par_dict,DUT_TYPE_MAPPING_EXT}  from "./jsonModify.js";
 import {adjust_selection}  from "./adjust.js";
-import { qurey,connect,completeEmitting,update_status} from "./network.js";
+import { qurey,connect,completeEmitting,update_status,getLinkMode} from "./network.js";
 import {readFR1Channels} from "./adjust.js"
+import {setupLinkControls} from "./linkui.js"
 
 Element.prototype.remove = function() {
   this.parentElement.removeChild(this);
@@ -69,10 +70,19 @@ document.addEventListener('DOMContentLoaded', function() {
   var reset_button = document.querySelector('#reset-button');
   reset_button.addEventListener('click', resetInputs);
   setTestType();
-  
+  setupLinkControls(appendLog);
+
   //coonecting socket
   listen_button.addEventListener('click',()=>{
-    connect(document.getElementById('chamber-dropdown').value);
+    const chamber = document.getElementById('chamber-dropdown').value;
+    if (chamber === "" || chamber === "Select Chamber"){
+      alert("Select the chamber the test software uses first.");
+      return
+    }
+    const link = getLinkMode() === "lan" ? "LAN relay" : "Firebase";
+    connect(chamber)
+      .then(() => appendLog(`Listening for ${chamber} commands through ${link}.`))
+      .catch((err) => appendLog(`Listen failed (${link}): ${err.message || err}`));
   })
 
   recall_button.addEventListener('click', ()=>{
@@ -365,6 +375,11 @@ document.addEventListener('DOMContentLoaded', function() {
       input.value = '';
       input.disabled = false;
     });
+  }
+
+  function appendLog(text){
+    textArea.value += text + '\n';
+    textArea.scrollTop = textArea.scrollHeight;
   }
 
 });

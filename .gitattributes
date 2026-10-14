@@ -1,0 +1,3 @@
+# index.html checks the vendored libraries with Subresource Integrity hashes, so they must stay
+# byte-for-byte as downloaded: no CRLF conversion on Windows checkouts.
+vendor/** -text

@@ -467,8 +467,9 @@ export function readFR1Channels() {
     return;
   }
   /* set up XMLHttpRequest */
-  var url =
-    "http://emcwebcontroller.com/Media/FR1_Band_and_Configurations_v2.xlsx";
+  // Relative, so it comes from wherever the page was served: the web site, or the
+  // DUT Controller app on the LAN with no internet.
+  var url = "Media/FR1_Band_and_Configurations_v2.xlsx";
   var oReq = new XMLHttpRequest();
   oReq.open("GET", url, true);
   oReq.responseType = "arraybuffer";

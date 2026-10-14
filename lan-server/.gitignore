@@ -1,0 +1,4 @@
+# The build scripts copy the web page into webroot/ and write the programs to dist/.
+/webroot/*
+!/webroot/.keep
+/dist/
